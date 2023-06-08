@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/02 17:41:59 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:20:54 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,29 @@ typedef struct s_msc
     int time_to_eat;
     int time_to_sleep;
     int nb_must_eat;
+    t_philo *philo;
 }            t_msc;
+
+typedef struct t_philo
+{
+    //tread
+    //philo nb 
+    //philos fork (muterx proteced)
+    //maybe the other fork
+    //maybe pointer msc struct
+}       s_philo;
+
+//philo_main.c
+int	*init(int nb_args, char **strs, t_msc *msc);
+
+//ft_error_management.c
+void    ft_error(char *str, t_msc *msc);
+
+//philo_utils.c
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_bzero(void *s, size_t n);
+int	overflow_handler(const char *str, int i, int sign);
+int	ft_atoi(const char *nptr);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
