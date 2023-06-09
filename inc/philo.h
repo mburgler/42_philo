@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/08 16:20:54 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:44:04 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 # include <string.h>
 # include <pthread.h>
 
+typedef struct s_philo
+{
+    int no_philo;
+    int left_fork;
+    int right_fork;
+    pthread_t   id;
+}       t_philo;
+
 typedef struct s_msc
 {
     int nb_philo;
@@ -29,15 +37,6 @@ typedef struct s_msc
     int nb_must_eat;
     t_philo *philo;
 }            t_msc;
-
-typedef struct t_philo
-{
-    //tread
-    //philo nb 
-    //philos fork (muterx proteced)
-    //maybe the other fork
-    //maybe pointer msc struct
-}       s_philo;
 
 //philo_main.c
 int	*init(int nb_args, char **strs, t_msc *msc);
