@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/09 13:44:04 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:50:28 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,19 @@ typedef struct s_philo
 {
     int no_philo;
     int left_fork;
-    int right_fork;
-    pthread_t   id;
+    int *right_fork;
+	int	meal_count;
+	long	last_meal;
+    pthread_t   thread_id;
 }       t_philo;
+
+typedef struct s_mutex
+{
+	pthread_mutex_t forks;
+	pthread_mutex_t print;
+	pthread_mutex_t death;
+	pthread_mutex_t meal_count;
+}       t_mutex;
 
 typedef struct s_msc
 {
@@ -35,7 +45,8 @@ typedef struct s_msc
     int time_to_eat;
     int time_to_sleep;
     int nb_must_eat;
-    t_philo *philo;
+    t_philo *+philo;
+	t_mutex *struc_mutex;
 }            t_msc;
 
 //philo_main.c

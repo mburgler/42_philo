@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/09 14:18:58 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:34:06 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	*init(int nb_args, char **strs, t_msc *msc)
 
 int	init_treads(t_msc *msc)
 {
+	//sizeof(t_philo *)
 	return (0);
 }
 
