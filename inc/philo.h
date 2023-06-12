@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/11 21:43:36 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:04:11 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@
 # include <time.h>
 # include <string.h>
 # include <pthread.h>
+#include <stdbool.h>
 
 typedef struct s_philo
 {
-    int no_philo;
+    int nb_philo;
     int left_fork;
     int *right_fork;
 	int	meal_count;
 	long	last_meal;
+    bool    dead;
     pthread_t   thread_id;
 }       t_philo;
 
@@ -45,13 +47,14 @@ typedef struct s_msc
     int time_to_eat;
     int time_to_sleep;
     int nb_must_eat;
-    t_philo *philo;
+    t_philo **philo;
 	t_mutex *struc_mutex;
 }            t_msc;
 
 //philo_main.c
-int	*init(int nb_args, char **strs, t_msc *msc);
-int	init_treads(t_msc *msc);
+int	parsing(int nb_args, char **strs, t_msc *msc);
+int    init_philo(int i, t_msc *msc);
+int	init(t_msc *msc);
 
 //ft_error_management.c
 void    ft_error(char *str, t_msc *msc);

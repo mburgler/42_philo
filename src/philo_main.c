@@ -6,13 +6,13 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/09 16:25:51 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:08:33 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	*init(int nb_args, char **strs, t_msc *msc)
+int	parsing(int nb_args, char **strs, t_msc *msc)
 {
 	int i;
 	int	j;
@@ -51,15 +51,37 @@ int	*init(int nb_args, char **strs, t_msc *msc)
 	return (0);
 }
 
-int	init_treads(t_msc *msc)
+int	init_philo(int i, t_msc *msc)
+{
+	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
+	if(msc->philo[i] == NULL)
+		return (-1);
+	msc->philo[i]->nb_philo = i + 1;
+	msc->philo[i]->left_fork = i;
+	if(i > 1)
+		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
+	msc->philo[i]->meal_count = 0;
+	msc->philo[i]->last_meal = 0;
+	msc->philo[i]->dead = false;
+	return (0);
+}
+
+int	init(t_msc *msc)
 {
 	int i;
 
-	i = -1;
-	msc->philo = ft_calloc(sizeof(t_philo) * msc->nb_philo, 1);
+	i = 0;
+	msc->philo = ft_calloc(sizeof(t_philo *) * msc->nb_philo, 1);
 	if (msc->philo == NULL)
 		return (ft_error("malloc failed", msc), -1);
-	
+	while (i < msc->nb_philo) //Correct nmb?
+	{
+		init_philo(i, msc);
+		if (init_philo(i, msc) == -1)
+			return (ft_error("malloc failed", msc), -1);
+		i++;
+	}
+	msc->philo[msc->nb_philo - 1]->right_fork = &msc->philo[0]->left_fork;
 	return (0);
 }
 
@@ -69,9 +91,9 @@ int main(int argc, char **argv)
 	
 	if (argc < 5 || argc > 6)
 		return (ft_error("wrong number of arguments", msc), -1);
-	if (init(argc, argv, msc) == -1)
+	if (parsing(argc, argv, msc) == -1)
 		return (-1);
-	if (init_threads(msc) == -1)
+	if (init(msc) == -1)
 		return (-1);
 	return (0);
 }
