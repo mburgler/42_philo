@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/09 15:50:28 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:43:36 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ typedef struct s_msc
     int time_to_eat;
     int time_to_sleep;
     int nb_must_eat;
-    t_philo *+philo;
+    t_philo *philo;
 	t_mutex *struc_mutex;
 }            t_msc;
 
 //philo_main.c
 int	*init(int nb_args, char **strs, t_msc *msc);
+int	init_treads(t_msc *msc);
 
 //ft_error_management.c
 void    ft_error(char *str, t_msc *msc);

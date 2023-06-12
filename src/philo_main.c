@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/09 14:34:06 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:25:51 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ int	*init(int nb_args, char **strs, t_msc *msc)
 
 int	init_treads(t_msc *msc)
 {
-	//sizeof(t_philo *)
+	int i;
+
+	i = -1;
+	msc->philo = ft_calloc(sizeof(t_philo) * msc->nb_philo, 1);
+	if (msc->philo == NULL)
+		return (ft_error("malloc failed", msc), -1);
+	
 	return (0);
 }
 
