@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/12 17:08:33 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:06:16 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,9 @@ int main(int argc, char **argv)
 {
 	t_msc	*msc;
 	
+	msc = NULL;
 	if (argc < 5 || argc > 6)
-		return (ft_error("wrong number of arguments", msc), -1);
+		return (ft_error("wrong number of arguments", NULL), -1);
 	if (parsing(argc, argv, msc) == -1)
 		return (-1);
 	if (init(msc) == -1)
