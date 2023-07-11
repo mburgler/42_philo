@@ -12,42 +12,41 @@
 
 #include "../inc/philo.h"
 
+//PROTOTYPE: nb_philo; time_to_die; time_to_eat; time_to_sleep; 
+//[number_of_times_each_philosopher_must_eat]
+
 int	parsing(int nb_args, char **strs, t_msc *msc)
 {
 	int i;
 	int	j;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	while(strs[++i])
+	while(++i < nb_args)
 	{
-		while(strs[i][j])
+		while(strs[i][j] != '\0')
 		{
+			//printf("_%s_\n", &strs[i][j]);
 			if((strs[i][j] >= '0' && strs[i][j] <= '9') \
 				 || ((j == 0 && strs[i][j] == '+')))
-				j++;
+					j++;
 			else
 				return (ft_error("forbidden char or negative value", msc), -1);
 		}
+		j = 0;
+		//printf("###\n");
 	}
-	msc = ft_calloc(sizeof(t_msc), 1);
-	if (msc == NULL)
-		return (ft_error("malloc failed", msc), -1);
+	//printf("done\n"); //working till here
 	msc->nb_philo = ft_atoi(strs[1]);
 	msc->time_to_die = ft_atoi(strs[2]);
 	msc->time_to_eat = ft_atoi(strs[3]);
 	msc->time_to_sleep = ft_atoi(strs[4]);
-	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
-		|| msc->time_to_sleep == 0)
-		return(ft_error("forbidden zero", msc), -1);
 	if (nb_args == 6)
-	{
 		msc->nb_must_eat = ft_atoi(strs[5]);
-		if (msc->nb_must_eat == 0)
-			return(ft_error("forbidden zero", msc), -1);
-	}
-	else
-		msc->nb_must_eat = -1;
+	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
+		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
+		return(ft_error("forbidden zero", msc), -1);
+	//printf("DEBUG #%d\n", msc->time_to_sleep);
 	return (0);
 }
 
@@ -71,9 +70,11 @@ int	init(t_msc *msc)
 	int i;
 
 	i = 0;
+	//printf("DEBUG #HIER# %d\n", msc->nb_philo);
 	msc->philo = ft_calloc(sizeof(t_philo *) * msc->nb_philo, 1);
 	if (msc->philo == NULL)
 		return (ft_error("malloc failed", msc), -1);
+	printf("DEBUG #2_INIT\n");
 	while (i < msc->nb_philo) //Correct nmb?
 	{
 		init_philo(i, msc);
@@ -89,7 +90,9 @@ int main(int argc, char **argv)
 {
 	t_msc	*msc;
 	
-	msc = NULL;
+	msc = ft_calloc(sizeof(t_msc), 1);
+	if (msc == NULL)
+		return (ft_error("malloc failed", msc), -1);
 	if (argc < 5 || argc > 6)
 		return (ft_error("wrong number of arguments", NULL), -1);
 	if (parsing(argc, argv, msc) == -1)
