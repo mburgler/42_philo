@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/28 17:06:16 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/12 21:19:00 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 		//printf("###\n");
 	}
 	//printf("done\n"); //working till here
-	msc->nb_philo = ft_atoi(strs[1]);
+	msc->nb_philo = ft_atoi(strs[1]) - 1; //to synch overall and zero index
 	msc->time_to_die = ft_atoi(strs[2]);
 	msc->time_to_eat = ft_atoi(strs[3]);
 	msc->time_to_sleep = ft_atoi(strs[4]);
@@ -70,12 +70,12 @@ int	init(t_msc *msc)
 	int i;
 
 	i = 0;
-	//printf("DEBUG #HIER# %d\n", msc->nb_philo);
-	msc->philo = ft_calloc(sizeof(t_philo *) * msc->nb_philo, 1);
+	//printf("DEBUG #FUNCTION:INIT#; var no_philo %d\n", msc->nb_philo);
+	msc->philo = ft_calloc(sizeof(t_philo *) * msc->nb_philo, 1); //ref #55 - correctl malloced the right amount; since it is an array?
 	if (msc->philo == NULL)
 		return (ft_error("malloc failed", msc), -1);
-	printf("DEBUG #2_INIT\n");
-	while (i < msc->nb_philo) //Correct nmb?
+	//printf("DEBUG 2 #FUNCTION:INIT#\n");
+	while (i <= msc->nb_philo) //Correct nmb?
 	{
 		init_philo(i, msc);
 		if (init_philo(i, msc) == -1)
