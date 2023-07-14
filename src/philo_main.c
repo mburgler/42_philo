@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 18:06:27 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:49:13 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 //PROTOTYPE: nb_philo; time_to_die; time_to_eat; time_to_sleep; 
 //[number_of_times_each_philosopher_must_eat]
+//INT OVERFLOW IN atoi with parsing  (200, 2147483647, 2147483647, 2147483647, 2147483647)
 
 int	parsing(int nb_args, char **strs, t_msc *msc)
 {
@@ -89,7 +90,8 @@ int	init_mutex(t_msc *msc)
 					pthread_mutex_destroy(&msc->mutex->meal_count), -1);
 		}
 	}
-	return (0); //MUTEX NOT SECOND DESTROY
+	msc->mutex_initialised = true;
+	return (0);
 }
 
 int	init(t_msc *msc)
@@ -125,6 +127,7 @@ int main(int argc, char **argv)
 	t_msc	*msc;
 	
 	msc = ft_calloc(sizeof(t_msc), 1);
+	msc->mutex_initialised = false;
 	if (msc == NULL)
 		return (ft_error("malloc failed", msc), -1);
 	if (argc < 5 || argc > 6)
@@ -135,7 +138,6 @@ int main(int argc, char **argv)
 	if (init(msc) == -1)
 		return (-1);
 	printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
-	ft_error("SUCCESS", msc);
 	ft_error("SUCCESS", msc);
 	return (0);
 }

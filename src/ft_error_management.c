@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 17:31:29 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:50:19 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,51 @@ void    ft_error(char *str, t_msc *msc)
     write(2, "Error: ", 7);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	free_ma_boi(msc);
+}
+
+void	free_and_nullify(void **ptr)
+{
+    if (ptr != NULL && *ptr != NULL) 
+	{
+        free(*ptr);
+        *ptr = NULL;
+    }
+}
+
+void	free_ma_boi(t_msc *msc)
+{
+	int	i;
+	i = -1;
+
 	if(msc != NULL)
 	{
 		if(msc->mutex!= NULL)
 		{
+			if(msc->mutex_initialised == true)
+				destroy_mutexes(msc); //BOOKMARK
 			if(msc->mutex->forks != NULL)
-				free(msc->mutex->forks);
-				//free if no thread
-			free(msc->mutex);
+				free_and_nullify((void **)&msc->mutex->forks);
+			free_and_nullify((void **)&msc->mutex);
 		}
-		if(msc->philo != NULL) //double array free
-			free(msc->philo);
-		free(msc);
+		if(msc->philo != NULL)
+		{
+			while (++i <= msc->nb_philo)
+				free_and_nullify((void **)&msc->philo[i]);
+			free_and_nullify((void **)&msc->philo);
+		}
+		free_and_nullify((void **)&msc);
 	}
-    (void)msc; //change this
-    exit(1); //kill exit since not allowed
+}
+
+void	destroy_mutexes(t_msc *msc)
+{
+	int	i;
+
+	i = -1;
+	while (++i <= msc->nb_philo)
+		pthread_mutex_destroy(&msc->mutex->forks[i]);
+	pthread_mutex_destroy(&msc->mutex->print);
+	pthread_mutex_destroy(&msc->mutex->death);
+	pthread_mutex_destroy(&msc->mutex->meal_count);
 }
