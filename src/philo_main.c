@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/12 21:19:00 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:34:54 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 	msc->time_to_sleep = ft_atoi(strs[4]);
 	if (nb_args == 6)
 		msc->nb_must_eat = ft_atoi(strs[5]);
-	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
+	if (msc->nb_philo == -1 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
 		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
 		return(ft_error("forbidden zero", msc), -1);
-	//printf("DEBUG #%d\n", msc->time_to_sleep);
 	return (0);
 }
 
@@ -55,8 +54,8 @@ int	init_philo(int i, t_msc *msc)
 	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
 	if(msc->philo[i] == NULL)
 		return (-1);
-	msc->philo[i]->nb_philo = i + 1;
-	msc->philo[i]->left_fork = i;
+	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
+	msc->philo[i]->left_fork = i; //forkpos is 0
 	if(i > 1)
 		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
 	msc->philo[i]->meal_count = 0;
@@ -65,24 +64,49 @@ int	init_philo(int i, t_msc *msc)
 	return (0);
 }
 
+int	init_mutex(t_msc *msc)
+{
+	int i;
+
+	i = 0;
+	if (pthread_mutex_init(&msc->mutex->print, NULL) != 0 || 
+		pthread_mutex_init(&msc->mutex->death, NULL) != 0 ||
+			pthread_mutex_init(&msc->mutex->meal_count, NULL) != 0)
+		return (-1);
+	while(i <= msc->nb_philo)
+	{
+		if (pthread_mutex_init(&msc->mutex->forks[i], NULL) != 0)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 int	init(t_msc *msc)
 {
 	int i;
 
 	i = 0;
-	//printf("DEBUG #FUNCTION:INIT#; var no_philo %d\n", msc->nb_philo);
-	msc->philo = ft_calloc(sizeof(t_philo *) * msc->nb_philo, 1); //ref #55 - correctl malloced the right amount; since it is an array?
-	if (msc->philo == NULL)
+
+	msc->philo = ft_calloc(sizeof(t_philo *), msc->nb_philo); //ref #55 - correctl malloced the right amount; since it is an array?
+	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
+	if (msc->philo == NULL || msc->mutex == NULL)
 		return (ft_error("malloc failed", msc), -1);
-	//printf("DEBUG 2 #FUNCTION:INIT#\n");
+	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo + 1);
+	if (msc->mutex->forks == NULL)
+		return(ft_error("malloc failed", msc), -1);
+	printf("DEBUG 2 #FUNCTION:INIT#\n");
 	while (i <= msc->nb_philo) //Correct nmb?
 	{
-		init_philo(i, msc);
 		if (init_philo(i, msc) == -1)
-			return (ft_error("malloc failed", msc), -1);
+			return(ft_error("malloc failed", msc), -1);
 		i++;
 	}
-	msc->philo[msc->nb_philo - 1]->right_fork = &msc->philo[0]->left_fork;
+	printf("DEBUG 3 #FUNCTION:INIT#\n");
+	msc->philo[msc->nb_philo]->right_fork = &msc->philo[0]->left_fork;
+	if(init_mutex(msc) == -1)
+		return(ft_error("mutex init failed", msc), -1);
+	printf("DEBUG 4 #FUNCTION:INIT#\n");
 	return (0);
 }
 
@@ -97,7 +121,17 @@ int main(int argc, char **argv)
 		return (ft_error("wrong number of arguments", NULL), -1);
 	if (parsing(argc, argv, msc) == -1)
 		return (-1);
+	//CHECKPOINT - WORKS TILL HERE
 	if (init(msc) == -1)
 		return (-1);
+	printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
+	ft_error("SUCCESS", msc);
+	ft_error("SUCCESS", msc);
 	return (0);
 }
+
+/*
+pthread_mutex_lock(&msc->mutex->forks[msc->philo->left_fork]
+pthread_mutex_lock(&msc->mutex->forks[*(msc->philo->right_fork)]
+//ADRESSE VON MUTEX
+*/

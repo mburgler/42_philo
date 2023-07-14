@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/12 17:04:11 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:33:57 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_philo
 
 typedef struct s_mutex
 {
-	pthread_mutex_t forks;
+	pthread_mutex_t *forks;
 	pthread_mutex_t print;
 	pthread_mutex_t death;
 	pthread_mutex_t meal_count;
@@ -48,7 +48,7 @@ typedef struct s_msc
     int time_to_sleep;
     int nb_must_eat;
     t_philo **philo;
-	t_mutex *struc_mutex;
+	t_mutex *mutex;
 }            t_msc;
 
 //philo_main.c
@@ -65,5 +65,8 @@ void	ft_bzero(void *s, size_t n);
 int	overflow_handler(const char *str, int i, int sign);
 int	ft_atoi(const char *nptr);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+
+//philo_utils2.c
+int	ft_strlen(const char *s);
 
 #endif
