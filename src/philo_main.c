@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 16:34:54 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:06:27 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,29 @@ int	init_philo(int i, t_msc *msc)
 int	init_mutex(t_msc *msc)
 {
 	int i;
+	int j;
 
-	i = 0;
-	if (pthread_mutex_init(&msc->mutex->print, NULL) != 0 || 
-		pthread_mutex_init(&msc->mutex->death, NULL) != 0 ||
-			pthread_mutex_init(&msc->mutex->meal_count, NULL) != 0)
-		return (-1);
-	while(i <= msc->nb_philo)
+	i = -1;
+	j = -1;
+	if (pthread_mutex_init(&msc->mutex->print, NULL) != 0)
+		return(-1);
+	if (pthread_mutex_init(&msc->mutex->death, NULL) != 0)
+		return(pthread_mutex_destroy(&msc->mutex->print), -1);
+	if(pthread_mutex_init(&msc->mutex->meal_count, NULL) != 0)
+		return(pthread_mutex_destroy(&msc->mutex->print), \
+				pthread_mutex_destroy(&msc->mutex->death), -1);
+	while(++i <= msc->nb_philo) //Correct nmb?
 	{
 		if (pthread_mutex_init(&msc->mutex->forks[i], NULL) != 0)
-			return (-1);
-		i++;
+		{
+			while(++j < i)
+				pthread_mutex_destroy(&msc->mutex->forks[j]);
+			return (pthread_mutex_destroy(&msc->mutex->print), \
+				pthread_mutex_destroy(&msc->mutex->death), \
+					pthread_mutex_destroy(&msc->mutex->meal_count), -1);
+		}
 	}
-	return (0);
+	return (0); //MUTEX NOT SECOND DESTROY
 }
 
 int	init(t_msc *msc)
