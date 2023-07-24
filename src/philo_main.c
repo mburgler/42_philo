@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 19:49:13 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:48:04 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 	msc->time_to_sleep = ft_atoi(strs[4]);
 	if (nb_args == 6)
 		msc->nb_must_eat = ft_atoi(strs[5]);
+	else
+		msc->nb_must_eat = -1;
 	if (msc->nb_philo == -1 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
 		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
 		return(ft_error("forbidden zero", msc), -1);
@@ -107,20 +109,61 @@ int	init(t_msc *msc)
 	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo + 1);
 	if (msc->mutex->forks == NULL)
 		return(ft_error("malloc failed", msc), -1);
-	printf("DEBUG 2 #FUNCTION:INIT#\n");
+	//printf("DEBUG 2 #FUNCTION:INIT#\n");
 	while (i <= msc->nb_philo) //Correct nmb?
 	{
 		if (init_philo(i, msc) == -1)
 			return(ft_error("malloc failed", msc), -1);
 		i++;
 	}
-	printf("DEBUG 3 #FUNCTION:INIT#\n");
+	//printf("DEBUG 3 #FUNCTION:INIT#\n");
 	msc->philo[msc->nb_philo]->right_fork = &msc->philo[0]->left_fork;
 	if(init_mutex(msc) == -1)
 		return(ft_error("mutex init failed", msc), -1);
-	printf("DEBUG 4 #FUNCTION:INIT#\n");
+	//printf("DEBUG 4 #FUNCTION:INIT#\n");
 	return (0);
 }
+
+int	start_simulation(t_msc* msc)
+{
+	int	philo;
+	pthread_t	philo_thread[4242];
+	int	i;
+
+	i = -1;
+
+	//philo_thread = ft_calloc(sizeof(pthread_t) * (msc->nb_philo + 1), 1);
+	while(++i <= msc->nb_philo)
+	{
+		if (pthread_create(&philo_thread[i], NULL, routine, msc->philo[i]) != 0) //maybe &routine
+		{
+			if(pthread_create_cleanup(i, philo_thread, msc) == -1)
+				return (ft_error("pthread_create and pthread_join failed", msc), -1);
+			else
+				return (ft_error("pthread_create failed", msc), -1);
+		}
+	}
+	
+}
+
+int	pthread_create_cleanup(int threads_created, pthread_t philo_thread, t_msc *msc)
+{
+	int i;
+	
+	i = -1;
+	while(++i <= threads_created)
+	{
+		if(pthread_mutex_join(philo_thread[i], NULL) != 0);
+			return (-1);
+	}
+	return (0);
+}
+
+void	routine(void *arg)
+{
+	t_philo *one_philo;
+}
+
 
 int main(int argc, char **argv)
 {
@@ -137,7 +180,9 @@ int main(int argc, char **argv)
 	//CHECKPOINT - WORKS TILL HERE
 	if (init(msc) == -1)
 		return (-1);
-	printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
+	if(start_simulation(msc) == -1)
+		return (-1);
+	//printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
 	ft_error("SUCCESS", msc);
 	return (0);
 }
