@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 19:50:19 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:49:17 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void    ft_error(char *str, t_msc *msc)
 
 void	free_and_nullify(void **ptr)
 {
-    if (ptr != NULL && *ptr != NULL) 
+	if (ptr != NULL && *ptr != NULL) 
 	{
-        free(*ptr);
-        *ptr = NULL;
-    }
+		free(*ptr);
+		*ptr = NULL;
+	}
 }
 
 void	free_ma_boi(t_msc *msc)

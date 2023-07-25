@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 19:50:20 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:09:28 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,23 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <time.h>
 # include <string.h>
 # include <pthread.h>
 #include <stdbool.h>
+#include <sys/time.h>
+
+struct s_msc;
 
 typedef struct s_philo
 {
+	long long time_birth;
+	long long time_last_meal;
     int nb_philo;
     int left_fork;
     int *right_fork;
 	int	meal_count;
-	long	last_meal;
     bool    dead;
+	struct s_msc	*msc;
     pthread_t   thread_id;
 }       t_philo;
 
@@ -48,14 +52,23 @@ typedef struct s_msc
     int time_to_sleep;
     int nb_must_eat;
 	int	mutex_initialised;
+	bool	stop_simulation;
     t_philo **philo;
 	t_mutex *mutex;
 }            t_msc;
 
 //philo_main.c
 int	parsing(int nb_args, char **strs, t_msc *msc);
+void	parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 int    init_philo(int i, t_msc *msc);
+int	init_mutex(t_msc *msc);
 int	init(t_msc *msc);
+
+//simulation.c
+int	simulation_startup(t_msc* msc);
+void	simulation_shutdown(t_msc *msc);
+void	*simulation_running(void *arg);
+void	philo_sleeps(t_philo *one_philo, t_msc *msc);
 
 //ft_error_management.c
 void    ft_error(char *str, t_msc *msc);
@@ -72,5 +85,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //philo_utils2.c
 int	ft_strlen(const char *s);
+long long	sys_time(void);
+int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc);
 
 #endif

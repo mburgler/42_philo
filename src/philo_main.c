@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/24 13:48:04 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/25 21:54:21 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 	int	j;
 
 	i = 0;
-	j = 0;
 	while(++i < nb_args)
 	{
+		j = 0;
 		while(strs[i][j] != '\0')
 		{
 			//printf("_%s_\n", &strs[i][j]);
@@ -34,11 +34,17 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 			else
 				return (ft_error("forbidden char or negative value", msc), -1);
 		}
-		j = 0;
-		//printf("###\n");
 	}
-	//printf("done\n"); //working till here
-	msc->nb_philo = ft_atoi(strs[1]) - 1; //to synch overall and zero index
+	parsed_to_variables(nb_args, msc, strs);
+	if (msc->nb_philo == -1 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
+		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
+		return(ft_error("forbidden zero", msc), -1);
+	return (0);
+}
+
+void	parsed_to_variables(int nb_args, t_msc *msc, char **strs)
+{
+	msc->nb_philo = ft_atoi(strs[1]) - 1; //to synch overall and zero-index
 	msc->time_to_die = ft_atoi(strs[2]);
 	msc->time_to_eat = ft_atoi(strs[3]);
 	msc->time_to_sleep = ft_atoi(strs[4]);
@@ -46,25 +52,7 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 		msc->nb_must_eat = ft_atoi(strs[5]);
 	else
 		msc->nb_must_eat = -1;
-	if (msc->nb_philo == -1 || msc->time_to_die == 0 || msc->time_to_eat == 0 \
-		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
-		return(ft_error("forbidden zero", msc), -1);
-	return (0);
-}
-
-int	init_philo(int i, t_msc *msc)
-{
-	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
-	if(msc->philo[i] == NULL)
-		return (-1);
-	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
-	msc->philo[i]->left_fork = i; //forkpos is 0
-	if(i > 1)
-		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
-	msc->philo[i]->meal_count = 0;
-	msc->philo[i]->last_meal = 0;
-	msc->philo[i]->dead = false;
-	return (0);
+	msc->stop_simulation = false;
 }
 
 int	init_mutex(t_msc *msc)
@@ -96,12 +84,27 @@ int	init_mutex(t_msc *msc)
 	return (0);
 }
 
+int	init_philo(int i, t_msc *msc)
+{
+	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
+	if(msc->philo[i] == NULL)
+		return (-1);
+	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
+	msc->philo[i]->left_fork = i; //forkpos is 0
+	if(i > 1)
+		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
+	msc->philo[i]->meal_count = 0;
+	msc->philo[i]->time_last_meal = 0;
+	msc->philo[i]->dead = false;
+	msc->philo[i]->msc = msc;
+	return (0);
+}
+
 int	init(t_msc *msc)
 {
 	int i;
 
 	i = 0;
-
 	msc->philo = ft_calloc(sizeof(t_philo *), msc->nb_philo); //ref #55 - correctl malloced the right amount; since it is an array?
 	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
 	if (msc->philo == NULL || msc->mutex == NULL)
@@ -124,47 +127,6 @@ int	init(t_msc *msc)
 	return (0);
 }
 
-int	start_simulation(t_msc* msc)
-{
-	int	philo;
-	pthread_t	philo_thread[4242];
-	int	i;
-
-	i = -1;
-
-	//philo_thread = ft_calloc(sizeof(pthread_t) * (msc->nb_philo + 1), 1);
-	while(++i <= msc->nb_philo)
-	{
-		if (pthread_create(&philo_thread[i], NULL, routine, msc->philo[i]) != 0) //maybe &routine
-		{
-			if(pthread_create_cleanup(i, philo_thread, msc) == -1)
-				return (ft_error("pthread_create and pthread_join failed", msc), -1);
-			else
-				return (ft_error("pthread_create failed", msc), -1);
-		}
-	}
-	
-}
-
-int	pthread_create_cleanup(int threads_created, pthread_t philo_thread, t_msc *msc)
-{
-	int i;
-	
-	i = -1;
-	while(++i <= threads_created)
-	{
-		if(pthread_mutex_join(philo_thread[i], NULL) != 0);
-			return (-1);
-	}
-	return (0);
-}
-
-void	routine(void *arg)
-{
-	t_philo *one_philo;
-}
-
-
 int main(int argc, char **argv)
 {
 	t_msc	*msc;
@@ -180,7 +142,7 @@ int main(int argc, char **argv)
 	//CHECKPOINT - WORKS TILL HERE
 	if (init(msc) == -1)
 		return (-1);
-	if(start_simulation(msc) == -1)
+	if(simulation_startup(msc) == -1)
 		return (-1);
 	//printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
 	ft_error("SUCCESS", msc);

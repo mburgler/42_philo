@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/14 19:03:22 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:06:56 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,29 @@ int	ft_strlen(const char *s)
 		index++;
 	}
 	return (index);
+}
+
+long long	sys_time(void)
+{
+	struct timeval	time;
+	long long				time_ms;
+
+	gettimeofday(&time, NULL);
+	time_ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (time_ms);
+}
+//long long to avoid the Year 2038 Problem
+
+int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
+{
+	int i;
+	
+	i = -1;
+	while(++i < threads_created) // < or <= -> solved it is <
+	{
+		if(pthread_join(philo_thread[i], NULL) != 0)
+			return (-1);
+	}
+	(void)msc;
+	return (0);
 }
