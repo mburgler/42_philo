@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/25 22:09:28 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:42:05 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	init(t_msc *msc);
 int	simulation_startup(t_msc* msc);
 void	simulation_shutdown(t_msc *msc);
 void	*simulation_running(void *arg);
-void	philo_sleeps(t_philo *one_philo, t_msc *msc);
+void	philo_eats(t_philo *one_philo, t_msc *msc);
+int	philo_sleeps(t_philo *one_philo, t_msc *msc);
 
 //ft_error_management.c
 void    ft_error(char *str, t_msc *msc);
@@ -87,5 +88,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	ft_strlen(const char *s);
 long long	sys_time(void);
 int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc);
+void	ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message);
 
 #endif

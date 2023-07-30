@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/25 20:06:56 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:57:28 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,14 @@ int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
 	}
 	(void)msc;
 	return (0);
+}
+
+void	ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message)
+{
+	long long time_now;
+
+	time_now = sys_time();
+	pthread_mutex_lock(&msc->mutex->print);
+	printf("%lld %d %s\n", time_now, one_philo->nb_philo, message);
+	pthread_mutex_unlock(&msc->mutex->print);
 }
