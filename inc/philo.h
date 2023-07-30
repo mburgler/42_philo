@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/26 14:42:05 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:12:09 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int	ft_strlen(const char *s);
 long long	sys_time(void);
 int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc);
 void	ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message);
+void	ft_mutex_print_death(t_msc *msc, t_philo *one_philo);
 
 #endif
