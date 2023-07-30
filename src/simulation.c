@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/30 18:05:15 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/30 20:46:48 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ void	simulation_shutdown(t_msc *msc)
 	return ;
 }
 
-//check if philo died thinking is fast enough
-
 void	*simulation_running(void *arg)
 {
 	t_philo *one_philo;
@@ -87,11 +85,6 @@ void	*simulation_running(void *arg)
 		else
 			return (NULL);
 	}
-	//printf("DEBUG simulation_running########################\n");
-	//printf("DEBUG ROUTINE#, thread_philo no %d\n", one_philo->nb_philo);
-	//pthread_mutex_lock(&one_philo->msc->mutex->print);
-	//printf("DEBUG ROUTINE#, thread_philo no %d\n", one_philo->nb_philo);
-	//pthread_mutex_unlock(&one_philo->msc->mutex->print);
 	return(NULL);
 }
 
@@ -107,7 +100,6 @@ void	philo_eats(t_philo *one_philo, t_msc *msc)
 	else
 	{
 		usleep(msc->time_to_eat * 1000);
-		printf("### for philo_nb %d\n", one_philo->nb_philo);
 		pthread_mutex_lock(&msc->mutex->forks[*one_philo->right_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his right fork");
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
@@ -135,7 +127,6 @@ int	philo_sleeps(t_philo *one_philo, t_msc *msc)
 	if(msc->stop_simulation == true)
 		return (-1);
 	time_now = sys_time();
-	//printf("**** TIME LAST MEAL %lld, TIME TO DIE %d", (time_now - one_philo->time_last_meal), msc->time_to_die);
 	if(time_now - one_philo->time_last_meal > msc->time_to_die)
 	{
 		pthread_mutex_lock(&msc->mutex->death);

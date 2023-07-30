@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/30 18:18:08 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/30 18:54:15 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	init_philo(int i, t_msc *msc)
 		return (-1);
 	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
 	msc->philo[i]->left_fork = i; //forkpos is 0
-	if(i > 1)
+	if(i > 0)
 		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
 	msc->philo[i]->meal_count = 0;
 	msc->philo[i]->time_last_meal = 0;
@@ -109,7 +109,7 @@ int	init(t_msc *msc)
 	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
 	if (msc->philo == NULL || msc->mutex == NULL)
 		return (ft_error("malloc failed", msc), -1);
-	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo + 1);
+	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo);
 	if (msc->mutex->forks == NULL)
 		return(ft_error("malloc failed", msc), -1);
 	//printf("DEBUG 2 #FUNCTION:INIT#\n");
