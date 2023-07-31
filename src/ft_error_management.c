@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/25 19:49:17 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:10:35 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_ma_boi(t_msc *msc)
 		}
 		if(msc->philo != NULL)
 		{
-			while (++i <= msc->nb_philo)
+			while (++i < msc->nb_philo)
 				free_and_nullify((void **)&msc->philo[i]);
 			free_and_nullify((void **)&msc->philo);
 		}
@@ -59,7 +59,7 @@ void	destroy_mutexes(t_msc *msc)
 	int	i;
 
 	i = -1;
-	while (++i <= msc->nb_philo)
+	while (++i < msc->nb_philo)
 		pthread_mutex_destroy(&msc->mutex->forks[i]);
 	pthread_mutex_destroy(&msc->mutex->print);
 	pthread_mutex_destroy(&msc->mutex->death);

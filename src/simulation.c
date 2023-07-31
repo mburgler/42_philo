@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 17:08:43 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:42:34 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	simulation_shutdown(t_msc *msc)
 	{
 		all_ate = true;
 		i = -1;
-		while(++i < msc->nb_philo) // < or <= since 0-indexed
+		while(++i < msc->nb_philo && msc->stop_simulation == false) // < or <= since 0-indexed
 		{
 			pthread_mutex_lock(&msc->mutex->death);
 			if(sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
@@ -68,13 +68,13 @@ void	simulation_shutdown(t_msc *msc)
 			else
 				pthread_mutex_unlock(&msc->mutex->death);
 			pthread_mutex_lock(&msc->mutex->meal_count);
-			if(msc->philo[i]->meal_count <= msc->nb_must_eat || msc->nb_must_eat == -1)
+			if(msc->philo[i]->meal_count < msc->nb_must_eat || msc->nb_must_eat == -1)
 				all_ate = false;
 			pthread_mutex_unlock(&msc->mutex->meal_count);
 		}
 		if(all_ate == true)
 			msc->stop_simulation = true;
-		usleep(9000);
+		usleep(5000);
 	}
 }
 
@@ -85,8 +85,12 @@ void	*simulation_running(void *arg)
 	if (!arg)
 		return (NULL);
 	one_philo = (t_philo *)arg;
+	// if (one_philo->nb_philo % 2)
+	// 	usleep(1000);
 	while(one_philo->msc->stop_simulation == false)
 	{
+		/*if(one_philo->meal_count == 0) //NEW SECTION
+			usleep(1000);*/
 		if(philo_eats(one_philo, one_philo->msc) == -1)
 			return (NULL);
 		if(philo_sleeps(one_philo, one_philo->msc) == -1)
@@ -101,7 +105,7 @@ void	*simulation_running(void *arg)
 
 int	philo_eats(t_philo *one_philo, t_msc *msc)
 {
-	usleep(1000);
+	//usleep(1000);
 	if((one_philo->nb_philo) % 2)
 	{
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
@@ -111,7 +115,7 @@ int	philo_eats(t_philo *one_philo, t_msc *msc)
 	}
 	else
 	{
-		//usleep(1000);
+		usleep(1000);
 		//msc->time_to_eat * 1000);
 		pthread_mutex_lock(&msc->mutex->forks[*one_philo->right_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his right fork");
@@ -136,22 +140,22 @@ int	philo_eats(t_philo *one_philo, t_msc *msc)
 
 int	philo_sleeps(t_philo *one_philo, t_msc *msc)
 {
-	long long time_now;
+	// long long time_now;
 
 	if(msc->stop_simulation == true)
 		return (-1);
-	time_now = sys_time();
-	pthread_mutex_lock(&msc->mutex->death);
-	if(time_now - one_philo->time_last_meal > msc->time_to_die)
-	{
-		one_philo->dead = true;
-		pthread_mutex_unlock(&msc->mutex->death);
-		msc->stop_simulation = true;
-		ft_mutex_print_death(msc, one_philo);		
-		return (-1);
-	}
-	else
-		pthread_mutex_unlock(&msc->mutex->death);
+	// time_now = sys_time();
+	// pthread_mutex_lock(&msc->mutex->death);
+	// if(time_now - one_philo->time_last_meal > msc->time_to_die)
+	// {
+	// 	one_philo->dead = true;
+	// 	pthread_mutex_unlock(&msc->mutex->death);
+	// 	msc->stop_simulation = true;
+	// 	ft_mutex_print_death(msc, one_philo);		
+	// 	return (-1);
+	// }
+	// else
+	// 	pthread_mutex_unlock(&msc->mutex->death);
 	ft_mutex_print(msc, one_philo, "is sleeping");
 	usleep(msc->time_to_sleep * 1000);
 	return(0);
