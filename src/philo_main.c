@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 02:03:12 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:51:30 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 
 void	parsed_to_variables(int nb_args, t_msc *msc, char **strs)
 {
-	msc->nb_philo = ft_atoi(strs[1]) - 1; //to synch overall and zero-index
+	msc->nb_philo = ft_atoi(strs[1]); //to synch overall and zero-index
 	msc->time_to_die = ft_atoi(strs[2]);
 	msc->time_to_eat = ft_atoi(strs[3]);
 	msc->time_to_sleep = ft_atoi(strs[4]);
@@ -69,7 +69,7 @@ int	init_mutex(t_msc *msc)
 	if(pthread_mutex_init(&msc->mutex->meal_count, NULL) != 0)
 		return(pthread_mutex_destroy(&msc->mutex->print), \
 				pthread_mutex_destroy(&msc->mutex->death), -1);
-	while(++i <= msc->nb_philo) //Correct nmb?
+	while(++i < msc->nb_philo) //Correct nmb?
 	{
 		if (pthread_mutex_init(&msc->mutex->forks[i], NULL) != 0)
 		{
@@ -89,10 +89,10 @@ int	init_philo(int i, t_msc *msc)
 	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
 	if(msc->philo[i] == NULL)
 		return (-1);
-	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
+	msc->philo[i]->nb_philo = i; //array pos 0 ist philo 1
 	msc->philo[i]->left_fork = i; //forkpos is 0
 	if(i > 0)
-		msc->philo[i - 1]->right_fork = &msc->philo[i]->left_fork;
+		msc->philo[i - 1]->right_fork = &(msc->philo[i]->left_fork);
 	msc->philo[i]->meal_count = 0;
 	msc->philo[i]->time_last_meal = 0;
 	msc->philo[i]->dead = false;
@@ -114,7 +114,7 @@ int	init(t_msc *msc)
 	if (msc->mutex->forks == NULL)
 		return(ft_error("malloc failed", msc), -1);
 	//printf("DEBUG 2 #FUNCTION:INIT#\n");
-	while (i <= msc->nb_philo) //Correct nmb?
+	while (i < msc->nb_philo) //Correct nmb?
 	{
 		if (init_philo(i, msc) == -1)
 			return(ft_error("malloc failed", msc), -1);
@@ -122,7 +122,7 @@ int	init(t_msc *msc)
 		printf("DEBUG 4 #FUNCTION:INIT_PHILO# i:%d\n", i);
 	}
 	//printf("DEBUG 3 #FUNCTION:INIT#\n");
-	msc->philo[msc->nb_philo]->right_fork = &msc->philo[0]->left_fork;
+	msc->philo[msc->nb_philo - 1]->right_fork = &(msc->philo[0]->left_fork);
 	if(init_mutex(msc) == -1)
 		return(ft_error("mutex init failed", msc), -1);
 	//printf("DEBUG 4 #FUNCTION:INIT#\n");

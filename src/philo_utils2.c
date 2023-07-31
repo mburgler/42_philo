@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/30 16:30:45 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 14:01:50 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
 {
 	int i;
 	
-	i = -1;
-	while(++i < threads_created) // < or <= -> solved it is <
+	i = 0;
+	while(i < threads_created) // < or <= -> solved it is <
 	{
 		if(pthread_join(philo_thread[i], NULL) != 0)
 			return (-1);
+		i++;
 	}
 	(void)msc;
 	return (0);

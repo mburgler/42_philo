@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 13:39:22 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 14:17:07 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	simulation_startup(t_msc* msc)
 
 	i = -1;
 	printf("--- DEBUG #1 ---\n");
-	philo_thread = ft_calloc(sizeof(pthread_t) * (msc->nb_philo), 1);
+	philo_thread = ft_calloc(sizeof(pthread_t), msc->nb_philo);
 	printf("--- DEBUG #2 ---\n");
-	while(++i <= msc->nb_philo)
+	while(++i < msc->nb_philo)
 	{
 		printf("--- DEBUG #3--- loop no %d\n", i);
-		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_birth = sys_time();
+		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
 		pthread_mutex_unlock(&msc->mutex->death);
 		//printf("DEBUG NO_PHILO#, no %d\n", msc->philo[i]->nb_philo);
@@ -58,7 +58,7 @@ void	simulation_shutdown(t_msc *msc)
 	{
 		all_ate = true;
 		i = -1;
-		while(++i <= msc->nb_philo) // < or <= since 0-indexed
+		while(++i < msc->nb_philo) // < or <= since 0-indexed
 		{
 			usleep(9000);
 			pthread_mutex_lock(&msc->mutex->death);
@@ -108,7 +108,8 @@ void	*simulation_running(void *arg)
 
 int	philo_eats(t_philo *one_philo, t_msc *msc)
 {
-	if((one_philo->nb_philo + 1) %2)
+	usleep(1000);
+	if((one_philo->nb_philo + 1) % 2)
 	{
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his left fork");
@@ -117,7 +118,7 @@ int	philo_eats(t_philo *one_philo, t_msc *msc)
 	}
 	else
 	{
-		usleep(1000);//msc->time_to_eat * 1000);
+		//msc->time_to_eat * 1000);
 		pthread_mutex_lock(&msc->mutex->forks[*one_philo->right_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his right fork");
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
