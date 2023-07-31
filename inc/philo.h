@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 13:35:28 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:44:01 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	init(t_msc *msc);
 int	simulation_startup(t_msc* msc);
 void	simulation_shutdown(t_msc *msc);
 void	*simulation_running(void *arg);
-int	philo_eats(t_philo *one_philo, t_msc *msc);
+void	philo_eats(t_philo *one_philo, t_msc *msc);
 int	philo_sleeps(t_philo *one_philo, t_msc *msc);
 
 //ft_error_management.c

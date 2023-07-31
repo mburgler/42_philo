@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 18:42:34 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 20:57:34 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ void	simulation_shutdown(t_msc *msc)
 			if(msc->philo[i]->meal_count < msc->nb_must_eat || msc->nb_must_eat == -1)
 				all_ate = false;
 			pthread_mutex_unlock(&msc->mutex->meal_count);
+			//usleep(1000);
+			usleep(5000);
 		}
 		if(all_ate == true)
 			msc->stop_simulation = true;
-		usleep(5000);
 	}
 }
 
@@ -85,27 +86,25 @@ void	*simulation_running(void *arg)
 	if (!arg)
 		return (NULL);
 	one_philo = (t_philo *)arg;
-	// if (one_philo->nb_philo % 2)
-	// 	usleep(1000);
+	if (one_philo->nb_philo % 2)
+	 	usleep(1000);
 	while(one_philo->msc->stop_simulation == false)
 	{
 		/*if(one_philo->meal_count == 0) //NEW SECTION
 			usleep(1000);*/
-		if(philo_eats(one_philo, one_philo->msc) == -1)
-			return (NULL);
+		philo_eats(one_philo, one_philo->msc);
 		if(philo_sleeps(one_philo, one_philo->msc) == -1)
 			return (NULL);
-		if(one_philo->msc->stop_simulation == false)
-			ft_mutex_print(one_philo->msc, one_philo, "is thinking");
-		else
+		ft_mutex_print(one_philo->msc, one_philo, "is thinking");
+		if(one_philo->msc->stop_simulation == true)
 			return (NULL);
 	}
 	return(NULL);
 }
 
-int	philo_eats(t_philo *one_philo, t_msc *msc)
+void	philo_eats(t_philo *one_philo, t_msc *msc)
 {
-	//usleep(1000);
+	usleep(1000);
 	if((one_philo->nb_philo) % 2)
 	{
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
@@ -115,27 +114,23 @@ int	philo_eats(t_philo *one_philo, t_msc *msc)
 	}
 	else
 	{
-		usleep(1000);
+		//usleep(1000);
 		//msc->time_to_eat * 1000);
 		pthread_mutex_lock(&msc->mutex->forks[*one_philo->right_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his right fork");
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his left fork");
 	}
-	if(1 == 1)
-	{
-		pthread_mutex_lock(&msc->mutex->death);
-		one_philo->time_last_meal = sys_time();
-		pthread_mutex_unlock(&msc->mutex->death);
-		ft_mutex_print(msc, one_philo, "is eating");
-		pthread_mutex_lock(&msc->mutex->meal_count);
-		one_philo->meal_count++;
-		pthread_mutex_unlock(&msc->mutex->meal_count);
-		usleep(msc->time_to_eat * 1000);
-		pthread_mutex_unlock(&msc->mutex->forks[one_philo->left_fork]);
-		pthread_mutex_unlock(&msc->mutex->forks[*one_philo->right_fork]);
-	}
-	return (0);
+	pthread_mutex_lock(&msc->mutex->death);
+	one_philo->time_last_meal = sys_time();
+	pthread_mutex_unlock(&msc->mutex->death);
+	ft_mutex_print(msc, one_philo, "is eating");
+	pthread_mutex_lock(&msc->mutex->meal_count);
+	one_philo->meal_count++;
+	pthread_mutex_unlock(&msc->mutex->meal_count);
+	usleep(msc->time_to_eat * 1000);
+	pthread_mutex_unlock(&msc->mutex->forks[one_philo->left_fork]);
+	pthread_mutex_unlock(&msc->mutex->forks[*one_philo->right_fork]);
 }
 
 int	philo_sleeps(t_philo *one_philo, t_msc *msc)
