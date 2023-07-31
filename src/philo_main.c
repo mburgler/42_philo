@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/30 18:54:15 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 02:03:12 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	init_philo(int i, t_msc *msc)
 	msc->philo[i]->time_last_meal = 0;
 	msc->philo[i]->dead = false;
 	msc->philo[i]->msc = msc;
+	printf("DEBUG 3 #FUNCTION:INIT_PHILO# i:%d\n", i);
 	return (0);
 }
 
@@ -118,6 +119,7 @@ int	init(t_msc *msc)
 		if (init_philo(i, msc) == -1)
 			return(ft_error("malloc failed", msc), -1);
 		i++;
+		printf("DEBUG 4 #FUNCTION:INIT_PHILO# i:%d\n", i);
 	}
 	//printf("DEBUG 3 #FUNCTION:INIT#\n");
 	msc->philo[msc->nb_philo]->right_fork = &msc->philo[0]->left_fork;
