@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 14:01:50 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:58:00 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message)
 			pthread_mutex_unlock(&msc->mutex->print);
 			return ;
 		}
-	printf("%lld %d %s\n", time_now, one_philo->nb_philo, message);
+	printf("%lld %d %s\n", (time_now - one_philo->time_birth), one_philo->nb_philo, message);
 	pthread_mutex_unlock(&msc->mutex->print);
 }
 
@@ -71,6 +71,6 @@ void	ft_mutex_print_death(t_msc *msc, t_philo *one_philo)
 
 	time_now = sys_time();
 	pthread_mutex_lock(&msc->mutex->print);
-	printf("%lld %d died\n", time_now, one_philo->nb_philo);
+	printf("%lld %d died\n", (time_now - one_philo->time_birth), one_philo->nb_philo);
 	pthread_mutex_unlock(&msc->mutex->print);
 }

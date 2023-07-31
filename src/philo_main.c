@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 13:51:30 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:01:21 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	init_philo(int i, t_msc *msc)
 	msc->philo[i] = ft_calloc(sizeof(t_philo), 1);
 	if(msc->philo[i] == NULL)
 		return (-1);
-	msc->philo[i]->nb_philo = i; //array pos 0 ist philo 1
+	msc->philo[i]->nb_philo = i + 1; //array pos 0 ist philo 1
 	msc->philo[i]->left_fork = i; //forkpos is 0
 	if(i > 0)
 		msc->philo[i - 1]->right_fork = &(msc->philo[i]->left_fork);
@@ -97,7 +97,6 @@ int	init_philo(int i, t_msc *msc)
 	msc->philo[i]->time_last_meal = 0;
 	msc->philo[i]->dead = false;
 	msc->philo[i]->msc = msc;
-	printf("DEBUG 3 #FUNCTION:INIT_PHILO# i:%d\n", i);
 	return (0);
 }
 
@@ -119,7 +118,6 @@ int	init(t_msc *msc)
 		if (init_philo(i, msc) == -1)
 			return(ft_error("malloc failed", msc), -1);
 		i++;
-		printf("DEBUG 4 #FUNCTION:INIT_PHILO# i:%d\n", i);
 	}
 	//printf("DEBUG 3 #FUNCTION:INIT#\n");
 	msc->philo[msc->nb_philo - 1]->right_fork = &(msc->philo[0]->left_fork);
@@ -147,7 +145,8 @@ int main(int argc, char **argv)
 	if(simulation_startup(msc) == -1)
 		return (-1);
 	//printf("DEBUG _SUCCESS_ #end of FUNCTION MAIN#\n");
-	ft_error("SUCCESS", msc);
+	destroy_mutexes(msc);
+	free_ma_boi(msc);
 	return (0);
 }
 

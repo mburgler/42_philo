@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 14:17:07 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:08:43 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ int	simulation_startup(t_msc* msc)
 	int	i;
 
 	i = -1;
-	printf("--- DEBUG #1 ---\n");
 	philo_thread = ft_calloc(sizeof(pthread_t), msc->nb_philo);
-	printf("--- DEBUG #2 ---\n");
 	while(++i < msc->nb_philo)
 	{
-		printf("--- DEBUG #3--- loop no %d\n", i);
 		msc->philo[i]->time_birth = sys_time();
 		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
@@ -39,10 +36,9 @@ int	simulation_startup(t_msc* msc)
 				return (ft_error("pthread_create failed", msc), -1);
 		}
 	}
-	printf("--- DEBUG #4 ---\n");
 	simulation_shutdown(msc);
 	//printf("*** BEFORE THREAD_JOIN\n");
-	if(ft_pthread_join(i, philo_thread, msc) == -1) //< or <= in pthread join -> solved it is <
+	if(ft_pthread_join(i, philo_thread, msc) == -1)
 	 	return (ft_error("pthread_join failed", msc), -1);
 	printf("*** AFTER THREAD_JOIN\n");
 	free_and_nullify((void **)&philo_thread); //correct?
@@ -60,7 +56,6 @@ void	simulation_shutdown(t_msc *msc)
 		i = -1;
 		while(++i < msc->nb_philo) // < or <= since 0-indexed
 		{
-			usleep(9000);
 			pthread_mutex_lock(&msc->mutex->death);
 			if(sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
 			{
@@ -79,10 +74,8 @@ void	simulation_shutdown(t_msc *msc)
 		}
 		if(all_ate == true)
 			msc->stop_simulation = true;
+		usleep(9000);
 	}
-	usleep(1000);
-	//i = -1;
-	//return ;
 }
 
 void	*simulation_running(void *arg)
@@ -109,7 +102,7 @@ void	*simulation_running(void *arg)
 int	philo_eats(t_philo *one_philo, t_msc *msc)
 {
 	usleep(1000);
-	if((one_philo->nb_philo + 1) % 2)
+	if((one_philo->nb_philo) % 2)
 	{
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his left fork");
@@ -118,6 +111,7 @@ int	philo_eats(t_philo *one_philo, t_msc *msc)
 	}
 	else
 	{
+		//usleep(1000);
 		//msc->time_to_eat * 1000);
 		pthread_mutex_lock(&msc->mutex->forks[*one_philo->right_fork]);
 		ft_mutex_print(msc, one_philo, "has taken his right fork");
