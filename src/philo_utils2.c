@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 19:49:05 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:08:12 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_strlen(const char *s)
 long long	sys_time(void)
 {
 	struct timeval	time;
-	long long				time_ms;
+	long long		time_ms;
 
 	gettimeofday(&time, NULL);
 	time_ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
@@ -37,12 +37,12 @@ long long	sys_time(void)
 
 int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	while(i < threads_created) // < or <= -> solved it is <
+	while (i < threads_created)
 	{
-		if(pthread_join(philo_thread[i], NULL) != 0)
+		if (pthread_join(philo_thread[i], NULL) != 0)
 			return (-1);
 		i++;
 	}
@@ -52,27 +52,31 @@ int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
 
 void	ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message)
 {
-	long long time_now;
+	long long	time_now;
 
 	time_now = sys_time();
+	pthread_mutex_lock(&msc->mutex->death);
+	if (msc->stop_simulation == true)
+	{
+		pthread_mutex_unlock(&msc->mutex->death);
+		return ;
+	}
+	pthread_mutex_unlock(&msc->mutex->death);
 	pthread_mutex_lock(&msc->mutex->print);
-		if(msc->stop_simulation == true)
-		{
-			pthread_mutex_unlock(&msc->mutex->print);
-			return ;
-		}
-	printf("%lld %d %s\n", (time_now - one_philo->time_birth), one_philo->nb_philo, message);
+	printf("%lld %d %s\n", (time_now - one_philo->time_birth),
+		one_philo->nb_philo, message);
 	pthread_mutex_unlock(&msc->mutex->print);
 }
 
 void	ft_mutex_print_death(t_msc *msc, t_philo *one_philo)
 {
-	long long time_now;
+	long long	time_now;
 
 	time_now = sys_time();
 	pthread_mutex_lock(&msc->mutex->print);
-	printf("%lld %d died\n", (time_now - one_philo->time_birth), one_philo->nb_philo);
+	printf("%lld %d died\n", (time_now - one_philo->time_birth),
+		one_philo->nb_philo);
 	pthread_mutex_unlock(&msc->mutex->print);
-	if(one_philo->msc->nb_philo == 1)
+	if (one_philo->msc->nb_philo == 1)
 		pthread_mutex_unlock(&msc->mutex->forks[one_philo->left_fork]);
 }

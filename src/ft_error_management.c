@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 18:10:35 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:53:59 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void    ft_error(char *str, t_msc *msc)
+void	ft_error(char *str, t_msc *msc)
 {
-    write(2, "Error: ", 7);
+	write(2, "Error: ", 7);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
 	free_ma_boi(msc);
@@ -22,7 +22,7 @@ void    ft_error(char *str, t_msc *msc)
 
 void	free_and_nullify(void **ptr)
 {
-	if (ptr != NULL && *ptr != NULL) 
+	if (ptr != NULL && *ptr != NULL)
 	{
 		free(*ptr);
 		*ptr = NULL;
@@ -32,19 +32,19 @@ void	free_and_nullify(void **ptr)
 void	free_ma_boi(t_msc *msc)
 {
 	int	i;
-	i = -1;
 
-	if(msc != NULL)
+	i = -1;
+	if (msc != NULL)
 	{
-		if(msc->mutex!= NULL)
+		if (msc->mutex != NULL)
 		{
-			if(msc->mutex_initialised == true)
+			if (msc->mutex_initialised == true)
 				destroy_mutexes(msc); //BOOKMARK
-			if(msc->mutex->forks != NULL)
+			if (msc->mutex->forks != NULL)
 				free_and_nullify((void **)&msc->mutex->forks);
 			free_and_nullify((void **)&msc->mutex);
 		}
-		if(msc->philo != NULL)
+		if (msc->philo != NULL)
 		{
 			while (++i < msc->nb_philo)
 				free_and_nullify((void **)&msc->philo[i]);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:34:28 by mburgler          #+#    #+#             */
-/*   Updated: 2023/06/02 17:36:50 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:51:28 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ int	overflow_handler(const char *str, int i, int sign)
 
 int	ft_atoi(const char *nptr)
 {
-	int		i;
-	int		sign;
-	int		nb;
+	int	i;
+	int	sign;
+	int	nb;
 
 	nb = 0;
 	i = 0;
 	sign = 1;
-	while ((nptr[i] == ' ') || (nptr[i] == '\f') || (nptr[i] == '\n') || \
-		(nptr[i] == '\r') || (nptr[i] == '\t') || (nptr[i] == '\v'))
+	while ((nptr[i] == ' ') || (nptr[i] == '\f') || (nptr[i] == '\n') 
+		|| (nptr[i] == '\r') || (nptr[i] == '\t') || (nptr[i] == '\v'))
 		i++;
 	if (nptr[i] == '-')
 		sign = -1;
@@ -84,7 +84,7 @@ int	ft_atoi(const char *nptr)
 	else if (sign < 0 && overflow_handler(nptr, i, sign))
 		return (0);
 	while ((nptr[i] >= '0') && (nptr[i] <= '9'))
-	{	
+	{
 		nb = (nb * 10) + (nptr[i] - 48);
 		i++;
 	}
