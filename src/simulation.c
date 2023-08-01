@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/07/31 21:54:42 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:43:46 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	*simulation_running(void *arg)
 
 void	philo_eats(t_philo *one_philo, t_msc *msc)
 {
-	usleep(5000);
+	usleep(1000);
 	if((one_philo->nb_philo) % 2)
 	{
 		pthread_mutex_lock(&msc->mutex->forks[one_philo->left_fork]);
