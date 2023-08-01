@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/14 16:27:05 by mburgler          #+#    #+#              #
-#    Updated: 2023/08/01 15:44:18 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/08/01 18:08:56 by mburgler         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS        :=      src/philo_main.c \
                           src/simulation.c \
                           src/philo_utils.c \
 						  src/philo_utils2.c \
+						  src/parsing.c \
                           src/ft_error_management.c \
                           
 OBJS        := $(SRCS:.c=.o)

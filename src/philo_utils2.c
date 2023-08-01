@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 17:08:12 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:00:18 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ long long	sys_time(void)
 }
 //long long to avoid the Year 2038 Problem
 
-int	ft_pthread_join(int threads_created, pthread_t *philo_thread, t_msc *msc)
+int	ft_pthread_join(int j, pthread_t *philo_thread, t_msc *msc)
 {
 	int	i;
 
 	i = 0;
-	while (i < threads_created)
+	while (j < i)
 	{
 		if (pthread_join(philo_thread[i], NULL) != 0)
 			return (-1);

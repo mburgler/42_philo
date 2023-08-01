@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 17:09:22 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:20:45 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,31 @@
 
 int	simulation_startup(t_msc *msc)
 {
-	pthread_t	*philo_thread;
+	pthread_t	*threads;
 	int			i;
 
 	i = -1;
-	philo_thread = ft_calloc(sizeof(pthread_t), msc->nb_philo);
+	threads = ft_calloc(sizeof(pthread_t), msc->nb_philo);
 	while (++i < msc->nb_philo)
 	{
 		msc->philo[i]->time_birth = sys_time();
 		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
 		pthread_mutex_unlock(&msc->mutex->death);
-		if (pthread_create(&philo_thread[i], NULL, simulation_running,
-				msc->philo[i]) != 0)
+		if (pthread_create(&threads[i], NULL, matrix, msc->philo[i]) != 0)
 		{
-			if (ft_pthread_join(i, philo_thread, msc) == -1)
-				return (free_and_nullify((void **)&philo_thread),
-					ft_error("pthread_create and pthread_join failed", msc), 
-					-1);
+			if (ft_pthread_join(i, threads, msc) == -1)
+				return (free_null((void **)&threads),
+					ft_err("pthread_create and pthread_join failed", msc), -1);
 			else
-				return (free_and_nullify((void **)&philo_thread),
-					ft_error("pthread_create failed", msc), -1);
+				return (free_null((void **)&threads),
+					ft_err("pthread_create failed", msc), -1);
 		}
 	}
 	simulation_shutdown(msc);
-	if (ft_pthread_join(i, philo_thread, msc) == -1)
-		return (ft_error("pthread_join failed", msc), -1);
-	printf("*** AFTER THREAD_JOIN\n");
-	free_and_nullify((void **)&philo_thread);
-	return (0);
+	if (ft_pthread_join(i, threads, msc) == -1)
+		return (ft_err("pthread_join failed", msc), -1);
+	return (free_null((void **)&threads), 0);
 }
 
 void	simulation_shutdown(t_msc *msc)
@@ -90,7 +86,7 @@ void	simulation_shutdown(t_msc *msc)
 	pthread_mutex_unlock(&msc->mutex->death);
 }
 
-void	*simulation_running(void *arg)
+void	*matrix(void *arg)
 {
 	t_philo	*one_philo;
 
