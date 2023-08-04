@@ -1,8 +1,0 @@
-D max/min int
-- norminette
-D all callocs protected
-D shorten
-D edgecases
-D zero
-- looped often enough for min eating?
-- diff file
