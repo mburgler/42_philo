@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:03:27 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 18:14:33 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:44:27 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,37 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 			else
 				return (ft_err("forbidden char or negative value", msc), -1);
 		}
+		if (check_max_min_int(strs[i]) == -1)
+			return (ft_err("max/ min int violated", msc), -1);
 	}
 	parsed_to_variables(nb_args, msc, strs);
 	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0
 		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
 		return (ft_err("forbidden zero", msc), -1);
 	return (0);
+}
+
+int	check_max_min_int(char *str)
+{
+	int		num;
+	char	*temp;
+	int		i;
+
+	i = 0;
+	if (str[0] == '+')
+		i++;
+	num = ft_atoi(str + i);
+	temp = ft_itoa(num);
+	if (ft_strncmp(str + i, temp, ft_strlen(str + i)) != 0)
+	{
+		free(temp);
+		return (-1);
+	}
+	else
+	{
+		free(temp);
+		return (0);
+	}
 }
 
 void	parsed_to_variables(int nb_args, t_msc *msc, char **strs)

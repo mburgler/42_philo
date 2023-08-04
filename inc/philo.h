@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 14:41:33 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:44:37 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void		destroy_mutexes(t_msc *msc);
 
 //parsing.c
 int			parsing(int nb_args, char **strs, t_msc *msc);
+int			check_max_min_int(char *str);
 void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 
 //philo_utils.c
@@ -96,4 +97,9 @@ void		ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message);
 void		ft_mutex_print_death(t_msc *msc, t_philo *one_philo);
 long long	sys_time(void);
 
+//ft_itoa.c
+int			helper(int n);
+void		reverse(char *str);
+int			strlen_giver(int n);
+char		*ft_itoa(int n);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 19:17:00 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:49:15 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 //PROTOTYPE: nb_philo; time_to_die; time_to_eat; time_to_sleep;
 //[number_of_times_each_philosopher_must_eat]
-//INT OVERFLOW IN atoi with parsing  
 //(200, 2147483647, 2147483647, 2147483647, 2147483647)
 
 int	init_mutex(t_msc *msc)

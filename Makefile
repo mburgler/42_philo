@@ -6,7 +6,7 @@
 #    By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/14 16:27:05 by mburgler          #+#    #+#              #
-#    Updated: 2023/08/04 14:42:03 by mburgler         ###   ########.fr        #
+#    Updated: 2023/08/04 16:24:13 by mburgler         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS        :=      src/philo_main.c \
                           src/simulation_routine.c \
                           src/philo_utils.c \
 						  src/philo_utils2.c \
+						  src/ft_itoa.c \
 						  src/parsing.c \
                           src/ft_error_management.c \
                           
