@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:03:40 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:16:29 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	simulation_startup(t_msc *msc)
 {
-	pthread_t	*philo_thread;
+	pthread_t	*thr;
 	int			i;
 
 	i = -1;
-	philo_thread = ft_calloc(sizeof(pthread_t), msc->nb_philo);
-	if (philo_thread == NULL)
+	thr = ft_calloc(sizeof(pthread_t), msc->nb_philo);
+	if (thr == NULL)
 		return (ft_err("malloc failed", msc), -1);
 	while (++i < msc->nb_philo)
 	{
@@ -27,22 +27,21 @@ int	simulation_startup(t_msc *msc)
 		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
 		pthread_mutex_unlock(&msc->mutex->death);
-		if (pthread_create(&philo_thread[i], NULL, simulation_running,
+		if (pthread_create(&thr[i], NULL, simulation_running,
 				msc->philo[i]) != 0)
 		{
-			if (ft_pthread_join(i, philo_thread, msc) == -1)
-				return (free_null((void **)&philo_thread),
-					ft_err("pthread_create and pthread_join failed", msc), -1);
+			if (ft_pthread_join(i, thr, msc) == -1)
+				return (free_null((void **)&thr),
+					ft_err("pthread_create and pthread_join", msc), -1);
 			else
-				return (free_null((void **)&philo_thread),
-					ft_err("pthread_create failed", msc), -1);
+				return (free_null((void **)&thr),
+					ft_err("pthread_create", msc), -1);
 		}
 	}
 	simulation_shutdown(msc);
-	if (ft_pthread_join(i, philo_thread, msc) == -1)
-		return (free_null((void **)&philo_thread),
-			ft_err("pthread_join failed", msc), -1);
-	return (free_null((void **)&philo_thread), 0);
+	if (ft_pthread_join(i, thr, msc) == -1)
+		return (free_null((void **)&thr), ft_err("pthread_join", msc), -1);
+	return (free_null((void **)&thr), 0);
 }
 
 void	simulation_shutdown(t_msc *msc)
