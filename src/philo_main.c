@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:25:54 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:28:52 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv)
 	t_msc	*msc;
 	int	i;
 
-	i = -1
+	i = -1;
 	msc = ft_calloc(sizeof(t_msc), 1);
 	if (msc == NULL)
 		return (ft_err("malloc failed", msc), -1);
