@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:43:51 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:49:39 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,8 @@ int			helper(int n);
 void		reverse(char *str);
 int			strlen_giver(int n);
 char		*ft_itoa(int n);
+
+//NEW
+int	inner_loop(t_msc *msc, int i, int all_ate);
 
 #endif
