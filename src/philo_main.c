@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:59:32 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:25:54 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ int	init(t_msc *msc)
 int	main(int argc, char **argv)
 {
 	t_msc	*msc;
+	int	i;
 
+	i = -1
 	msc = ft_calloc(sizeof(t_msc), 1);
 	if (msc == NULL)
 		return (ft_err("malloc failed", msc), -1);
@@ -100,7 +102,7 @@ int	main(int argc, char **argv)
 		return (-1);
 	if (init(msc) == -1)
 		return (-1);
-	if (simulation_startup(msc) == -1)
+	if (simulation_startup(msc, i) == -1)
 		return (-1);
 	free_ma_boi(msc);
 	return (0);

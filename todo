@@ -1,6 +1,6 @@
 D max/min int
 - norminette
-- all callocs protected
+D all callocs protected
 - shorten
 - edgecases
 - zero

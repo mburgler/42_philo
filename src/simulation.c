@@ -6,18 +6,16 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:16:29 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:25:26 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	simulation_startup(t_msc *msc)
+int	simulation_startup(t_msc *msc, int i)
 {
 	pthread_t	*thr;
-	int			i;
 
-	i = -1;
 	thr = ft_calloc(sizeof(pthread_t), msc->nb_philo);
 	if (thr == NULL)
 		return (ft_err("malloc failed", msc), -1);
@@ -27,8 +25,7 @@ int	simulation_startup(t_msc *msc)
 		pthread_mutex_lock(&msc->mutex->death);
 		msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
 		pthread_mutex_unlock(&msc->mutex->death);
-		if (pthread_create(&thr[i], NULL, simulation_running,
-				msc->philo[i]) != 0)
+		if (pthread_create(&thr[i], NULL, matrix, msc->philo[i]) != 0)
 		{
 			if (ft_pthread_join(i, thr, msc) == -1)
 				return (free_null((void **)&thr),
@@ -88,7 +85,7 @@ void	simulation_shutdown(t_msc *msc)
 	pthread_mutex_unlock(&msc->mutex->death);
 }
 
-void	*simulation_running(void *arg)
+void	*matrix(void *arg)
 {
 	t_philo	*one_philo;
 
