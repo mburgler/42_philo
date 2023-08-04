@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:49:39 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:19:38 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 //simulation_control.c
 int			simulation_startup(t_msc *msc, int i);
 void		simulation_shutdown(t_msc *msc);
+int			inner_loop(t_msc *msc, int i, int all_ate);
+int			innerst_loop(t_msc *msc, int i, int all_ate);
 void		*matrix(void *arg);
 
 //simulaton_routine.c
@@ -100,8 +102,5 @@ int			helper(int n);
 void		reverse(char *str);
 int			strlen_giver(int n);
 char		*ft_itoa(int n);
-
-//NEW
-int	inner_loop(t_msc *msc, int i, int all_ate);
 
 #endif
