@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:41 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 21:20:10 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:25:27 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	simulation_shutdown(t_msc *msc)
 	all_ate = 1;
 	i = -1;
 	pthread_mutex_lock(&msc->mutex->death);
-	if(inner_loop(msc, i, all_ate) == -1)
+	if (inner_loop(msc, i, all_ate) == -1)
 		return ;
 	pthread_mutex_unlock(&msc->mutex->death);
 }
