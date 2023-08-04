@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:41 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 21:25:27 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:29:08 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	innerst_loop(t_msc *msc, int i, int all_ate)
 	pthread_mutex_lock(&msc->mutex->death);
 	return (all_ate);
 }
-//NEW
 
 void	*matrix(void *arg)
 {
