@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 18:14:46 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:17:00 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	init_philo(int i, t_msc *msc)
 		msc->philo[i - 1]->right_fork = &(msc->philo[i]->left_fork);
 	msc->philo[i]->meal_count = 0;
 	msc->philo[i]->time_last_meal = 0;
-	msc->philo[i]->dead = false;
 	msc->philo[i]->msc = msc;
 	return (0);
 }

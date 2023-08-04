@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 19:00:35 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:29:09 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_philo
 	int				left_fork;
 	int				*right_fork;
 	int				meal_count;
-	bool			dead;
 	struct s_msc	*msc;
 	pthread_t		thread_id;
 }		t_philo;
@@ -65,6 +64,7 @@ int			init(t_msc *msc);
 //simulation.c
 int			simulation_startup(t_msc *msc);
 void		simulation_shutdown(t_msc *msc);
+int			inner_loop(t_msc *msc, int i, int all_ate);
 void		*matrix(void *arg);
 void		philo_eats(t_philo *one_philo, t_msc *msc);
 int			philo_sleeps(t_philo *one_philo, t_msc *msc);

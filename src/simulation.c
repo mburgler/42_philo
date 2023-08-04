@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 19:09:57 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:28:54 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,39 +41,64 @@ int	simulation_startup(t_msc *msc)
 	return (free_null((void **)&threads), 0);
 }
 
+//SHORTENED VERSION:
+// void	simulation_shutdown(t_msc *msc)
+// {
+// 	int		i;
+// 	bool	all_ate;
+
+// 	pthread_mutex_lock(&msc->mutex->death);
+// 	while (msc->stop_simulation == false)
+// 	{
+// 		all_ate = true;
+// 		i = -1;
+// 		while (++i < msc->nb_philo && msc->stop_simulation == false)
+// 		{
+// 			if (sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
+// 			{
+// 				msc->stop_simulation = true;
+// 				return (pthread_mutex_unlock(&msc->mutex->death), 
+// 					ft_mutex_print_death(msc, msc->philo[i]));
+// 			}
+// 			pthread_mutex_lock(&msc->mutex->meal_count);
+// 			if (msc->philo[i]->meal_count < msc->nb_must_eat
+// 				|| msc->nb_must_eat == -1)
+// 				all_ate = false;
+// 			pthread_mutex_unlock(&msc->mutex->meal_count);
+// 		}
+// 		if (all_ate == true)
+// 		{
+// 			msc->stop_simulation = true;
+// 			return ;
+// 		}
+// 		pthread_mutex_unlock(&msc->mutex->death);
+// 		usleep(1000);
+// 		pthread_mutex_lock(&msc->mutex->death);
+// 	}
+// 	pthread_mutex_unlock(&msc->mutex->death);
+// }
+
+//OLD VERSION
 void	simulation_shutdown(t_msc *msc)
 {
 	int		i;
-	bool	all_ate;
+	int	all_ate;
 
 	pthread_mutex_lock(&msc->mutex->death);
 	while (msc->stop_simulation == false)
 	{
-		all_ate = true;
+		all_ate = 1;
 		i = -1;
 		pthread_mutex_unlock(&msc->mutex->death);
 		pthread_mutex_lock(&msc->mutex->death);
 		while (++i < msc->nb_philo && msc->stop_simulation == false)
 		{
-			if (sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
-			{
-				msc->philo[i]->dead = true;
-				msc->stop_simulation = true;
-				pthread_mutex_unlock(&msc->mutex->death);
-				ft_mutex_print_death(msc, msc->philo[i]);
+			all_ate = inner_loop(msc, i, all_ate);
+			if (all_ate == -1)
 				return ;
-			}
-			else
-				pthread_mutex_unlock(&msc->mutex->death);
-			pthread_mutex_lock(&msc->mutex->meal_count);
-			if (msc->philo[i]->meal_count < msc->nb_must_eat
-				|| msc->nb_must_eat == -1)
-				all_ate = false;
-			pthread_mutex_unlock(&msc->mutex->meal_count);
-			pthread_mutex_lock(&msc->mutex->death);
 		}
 		pthread_mutex_unlock(&msc->mutex->death);
-		if (all_ate == true)
+		if (all_ate == 1)
 		{
 			pthread_mutex_lock(&msc->mutex->death);
 			msc->stop_simulation = true;
@@ -84,6 +109,26 @@ void	simulation_shutdown(t_msc *msc)
 		pthread_mutex_lock(&msc->mutex->death);
 	}
 	pthread_mutex_unlock(&msc->mutex->death);
+}
+
+int	inner_loop(t_msc *msc, int i, int all_ate)
+{
+	if (sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
+	{
+		msc->stop_simulation = true;
+		pthread_mutex_unlock(&msc->mutex->death);
+		ft_mutex_print_death(msc, msc->philo[i]);
+		return (-1);
+	}
+	else
+		pthread_mutex_unlock(&msc->mutex->death);
+	pthread_mutex_lock(&msc->mutex->meal_count);
+	if (msc->philo[i]->meal_count < msc->nb_must_eat
+		|| msc->nb_must_eat == -1)
+		all_ate = 0;
+	pthread_mutex_unlock(&msc->mutex->meal_count);
+	pthread_mutex_lock(&msc->mutex->death);
+	return(all_ate);
 }
 
 void	*matrix(void *arg)
