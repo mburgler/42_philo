@@ -6,19 +6,19 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 14:40:48 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 14:54:07 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:42:56 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	simulation_startup(t_msc *msc)
+int	simulation_startup(t_msc *msc, int i)
 {
 	pthread_t	*threads;
-	int			i;
 
-	i = -1;
 	threads = ft_calloc(sizeof(pthread_t), msc->nb_philo);
+	if (!threads)
+		return (ft_err("malloc failed", msc), -1);
 	while (++i < msc->nb_philo)
 	{
 		msc->philo[i]->time_birth = sys_time();

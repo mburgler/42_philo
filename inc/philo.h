@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 16:44:37 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:42:06 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			init_mutex(t_msc *msc);
 int			init(t_msc *msc);
 
 //simulation_control.c
-int			simulation_startup(t_msc *msc);
+int			simulation_startup(t_msc *msc, int i);
 void		simulation_shutdown(t_msc *msc);
 void		stop_simulation_true(t_msc *msc);
 int			inner_loop(t_msc *msc, int i, int all_ate);
@@ -80,7 +80,7 @@ void		destroy_mutexes(t_msc *msc);
 
 //parsing.c
 int			parsing(int nb_args, char **strs, t_msc *msc);
-int			check_max_min_int(char *str);
+int			check_max_min_int(char *str, t_msc *msc);
 void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 
 //philo_utils.c

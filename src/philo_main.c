@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 16:49:15 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:43:15 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ int	init(t_msc *msc)
 
 	i = 0;
 	msc->philo = ft_calloc(sizeof(t_philo *), msc->nb_philo);
+	if (msc->philo == NULL)
+		return (ft_err("malloc failed", msc), -1);
 	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
-	if (msc->philo == NULL || msc->mutex == NULL)
+	if (msc->mutex == NULL)
 		return (ft_err("malloc failed", msc), -1);
 	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo);
 	if (msc->mutex->forks == NULL)
@@ -87,6 +89,7 @@ int	init(t_msc *msc)
 int	main(int argc, char **argv)
 {
 	t_msc	*msc;
+	int		i;
 
 	msc = ft_calloc(sizeof(t_msc), 1);
 	if (msc == NULL)
@@ -98,7 +101,8 @@ int	main(int argc, char **argv)
 		return (-1);
 	if (init(msc) == -1)
 		return (-1);
-	if (simulation_startup(msc) == -1)
+	i = -1;
+	if (simulation_startup(msc, i) == -1)
 		return (-1);
 	free_ma_boi(msc);
 	return (0);

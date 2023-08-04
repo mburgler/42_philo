@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 18:03:27 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 16:44:27 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:19:33 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 			else
 				return (ft_err("forbidden char or negative value", msc), -1);
 		}
-		if (check_max_min_int(strs[i]) == -1)
-			return (ft_err("max/ min int violated", msc), -1);
+		if (check_max_min_int(strs[i], msc) == -1)
+			return (-1);
 	}
 	parsed_to_variables(nb_args, msc, strs);
 	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0
@@ -39,7 +39,7 @@ int	parsing(int nb_args, char **strs, t_msc *msc)
 	return (0);
 }
 
-int	check_max_min_int(char *str)
+int	check_max_min_int(char *str, t_msc *msc)
 {
 	int		num;
 	char	*temp;
@@ -50,10 +50,12 @@ int	check_max_min_int(char *str)
 		i++;
 	num = ft_atoi(str + i);
 	temp = ft_itoa(num);
+	if (temp == 0)
+		return (ft_err("malloc failed", msc), -1);
 	if (ft_strncmp(str + i, temp, ft_strlen(str + i)) != 0)
 	{
 		free(temp);
-		return (-1);
+		return (ft_err("max/ min int violated", msc), -1);
 	}
 	else
 	{
