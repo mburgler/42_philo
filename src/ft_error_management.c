@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 15:53:59 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:42:20 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	ft_error(char *str, t_msc *msc)
+void	ft_err(char *str, t_msc *msc)
 {
 	write(2, "Error: ", 7);
 	write(2, str, ft_strlen(str));

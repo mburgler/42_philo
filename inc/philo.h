@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:29:53 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:42:56 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,14 @@ typedef struct s_msc
 }		t_msc;
 
 //philo_main.c
-int			parsing(int nb_args, char **strs, t_msc *msc);
-void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 int			init_philo(int i, t_msc *msc);
 int			init_mutex(t_msc *msc);
 int			init(t_msc *msc);
+
+//parsing.c
+int			parsing(int nb_args, char **strs, t_msc *msc);
+int			check_max_min_int(char *str, t_msc *msc);
+void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 
 //simulation.c
 int			simulation_startup(t_msc *msc);
@@ -71,7 +74,7 @@ void		philo_eats(t_philo *one_philo, t_msc *msc);
 int			philo_sleeps(t_philo *one_philo, t_msc *msc);
 
 //ft_error_management.c
-void		ft_error(char *str, t_msc *msc);
+void		ft_err(char *str, t_msc *msc);
 void		free_and_nullify(void **ptr);
 void		free_ma_boi(t_msc *msc);
 void		destroy_mutexes(t_msc *msc);
@@ -89,5 +92,11 @@ long long	sys_time(void);
 int			ft_pthread_join(int j, pthread_t *philo_thread, t_msc *msc);
 void		ft_mutex_print(t_msc *msc, t_philo *one_philo, char *message);
 void		ft_mutex_print_death(t_msc *msc, t_philo *one_philo);
+
+//ft_itoa.c
+int			helper(int n);
+void		reverse(char *str);
+int			strlen_giver(int n);
+char		*ft_itoa(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:26:53 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:42:34 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,6 @@
 //[number_of_times_each_philosopher_must_eat]
 //INT OVERFLOW IN atoi with parsing  
 //(200, 2147483647, 2147483647, 2147483647, 2147483647)
-
-int	parsing(int nb_args, char **strs, t_msc *msc)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (++i < nb_args)
-	{
-		j = 0;
-		while (strs[i][j] != '\0')
-		{
-			if ((strs[i][j] >= '0' && strs[i][j] <= '9') || ((j == 0
-						&& strs[i][j] == '+')))
-				j++;
-			else
-				return (ft_error("forbidden char or negative value", msc), -1);
-		}
-	}
-	parsed_to_variables(nb_args, msc, strs);
-	if (msc->nb_philo == 0 || msc->time_to_die == 0 || msc->time_to_eat == 0
-		|| msc->time_to_sleep == 0 || (nb_args == 6 && msc->nb_must_eat == 0))
-		return (ft_error("forbidden zero", msc), -1);
-	return (0);
-}
-
-void	parsed_to_variables(int nb_args, t_msc *msc, char **strs)
-{
-	msc->nb_philo = ft_atoi(strs[1]);
-	msc->time_to_die = ft_atoi(strs[2]);
-	msc->time_to_eat = ft_atoi(strs[3]);
-	msc->time_to_sleep = ft_atoi(strs[4]);
-	if (nb_args == 6)
-		msc->nb_must_eat = ft_atoi(strs[5]);
-	else
-		msc->nb_must_eat = -1;
-	msc->stop_simulation = false;
-}
 
 int	init_mutex(t_msc *msc)
 {
@@ -107,19 +69,19 @@ int	init(t_msc *msc)
 	msc->philo = ft_calloc(sizeof(t_philo *), msc->nb_philo);
 	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
 	if (msc->philo == NULL || msc->mutex == NULL)
-		return (ft_error("malloc failed", msc), -1);
+		return (ft_err("malloc failed", msc), -1);
 	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo);
 	if (msc->mutex->forks == NULL)
-		return (ft_error("malloc failed", msc), -1);
+		return (ft_err("malloc failed", msc), -1);
 	while (i < msc->nb_philo)
 	{
 		if (init_philo(i, msc) == -1)
-			return (ft_error("malloc failed", msc), -1);
+			return (ft_err("malloc failed", msc), -1);
 		i++;
 	}
 	msc->philo[msc->nb_philo - 1]->right_fork = &(msc->philo[0]->left_fork);
 	if (init_mutex(msc) == -1)
-		return (ft_error("mutex init failed", msc), -1);
+		return (ft_err("mutex init failed", msc), -1);
 	return (0);
 }
 
@@ -129,10 +91,10 @@ int	main(int argc, char **argv)
 
 	msc = ft_calloc(sizeof(t_msc), 1);
 	if (msc == NULL)
-		return (ft_error("malloc failed", msc), -1);
+		return (ft_err("malloc failed", msc), -1);
 	msc->mutex_initialised = false;
 	if (argc < 5 || argc > 6)
-		return (ft_error("wrong number of arguments", NULL), -1);
+		return (ft_err("wrong number of arguments", NULL), -1);
 	if (parsing(argc, argv, msc) == -1)
 		return (-1);
 	if (init(msc) == -1)
