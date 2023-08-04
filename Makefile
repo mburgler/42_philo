@@ -6,7 +6,7 @@
 #    By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/14 16:27:05 by mburgler          #+#    #+#              #
-#    Updated: 2023/08/04 19:41:39 by mburgler         ###   ########.fr        #
+#    Updated: 2023/08/04 20:44:16 by mburgler         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ FLAGS    := -Wall -Wextra -Werror -g
 
 SRCS        :=      src/philo_main.c \
                           src/parsing.c \
-                          src/simulation.c \
+                          src/simulation_control.c \
+						  src/simulation_routine.c \
                           src/philo_utils.c \
 						  src/philo_utils2.c \
 						  src/ft_itoa.c \

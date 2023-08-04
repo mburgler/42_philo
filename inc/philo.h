@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:26:02 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:43:51 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,12 @@ int			parsing(int nb_args, char **strs, t_msc *msc);
 int			check_max_min_int(char *str, t_msc *msc);
 void		parsed_to_variables(int nb_args, t_msc *msc, char **strs);
 
-//simulation.c
+//simulation_control.c
 int			simulation_startup(t_msc *msc, int i);
 void		simulation_shutdown(t_msc *msc);
 void		*matrix(void *arg);
+
+//simulaton_routine.c
 void		philo_eats(t_philo *one_philo, t_msc *msc);
 int			philo_sleeps(t_philo *one_philo, t_msc *msc);
 
