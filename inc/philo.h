@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 14:29:09 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:41:33 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ int			init_philo(int i, t_msc *msc);
 int			init_mutex(t_msc *msc);
 int			init(t_msc *msc);
 
-//simulation.c
+//simulation_control.c
 int			simulation_startup(t_msc *msc);
 void		simulation_shutdown(t_msc *msc);
+void		stop_simulation_true(t_msc *msc);
 int			inner_loop(t_msc *msc, int i, int all_ate);
+
+//simulation_routine.c
 void		*matrix(void *arg);
 void		philo_eats(t_philo *one_philo, t_msc *msc);
 int			philo_sleeps(t_philo *one_philo, t_msc *msc);
