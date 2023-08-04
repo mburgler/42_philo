@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:42:34 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:59:32 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 //PROTOTYPE: nb_philo; time_to_die; time_to_eat; time_to_sleep;
 //[number_of_times_each_philosopher_must_eat]
-//INT OVERFLOW IN atoi with parsing  
 //(200, 2147483647, 2147483647, 2147483647, 2147483647)
 
 int	init_mutex(t_msc *msc)
@@ -67,8 +66,10 @@ int	init(t_msc *msc)
 
 	i = 0;
 	msc->philo = ft_calloc(sizeof(t_philo *), msc->nb_philo);
+	if (msc->philo == NULL)
+		return (ft_err("malloc failed", msc), -1);
 	msc->mutex = ft_calloc(sizeof(t_mutex), 1);
-	if (msc->philo == NULL || msc->mutex == NULL)
+	if (msc->mutex == NULL)
 		return (ft_err("malloc failed", msc), -1);
 	msc->mutex->forks = ft_calloc(sizeof(pthread_mutex_t), msc->nb_philo);
 	if (msc->mutex->forks == NULL)

@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:42:48 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:03:40 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	simulation_startup(t_msc *msc)
 
 	i = -1;
 	philo_thread = ft_calloc(sizeof(pthread_t), msc->nb_philo);
+	if (philo_thread == NULL)
+		return (ft_err("malloc failed", msc), -1);
 	while (++i < msc->nb_philo)
 	{
 		msc->philo[i]->time_birth = sys_time();
@@ -29,20 +31,18 @@ int	simulation_startup(t_msc *msc)
 				msc->philo[i]) != 0)
 		{
 			if (ft_pthread_join(i, philo_thread, msc) == -1)
-				return (free_and_nullify((void **)&philo_thread),
-					ft_err("pthread_create and pthread_join failed", msc), 
-					-1);
+				return (free_null((void **)&philo_thread),
+					ft_err("pthread_create and pthread_join failed", msc), -1);
 			else
-				return (free_and_nullify((void **)&philo_thread),
+				return (free_null((void **)&philo_thread),
 					ft_err("pthread_create failed", msc), -1);
 		}
 	}
 	simulation_shutdown(msc);
 	if (ft_pthread_join(i, philo_thread, msc) == -1)
-		return (ft_err("pthread_join failed", msc), -1);
-	printf("*** AFTER THREAD_JOIN\n");
-	free_and_nullify((void **)&philo_thread);
-	return (0);
+		return (free_null((void **)&philo_thread),
+			ft_err("pthread_join failed", msc), -1);
+	return (free_null((void **)&philo_thread), 0);
 }
 
 void	simulation_shutdown(t_msc *msc)

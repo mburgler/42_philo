@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:08:58 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:42:20 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:55:30 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_err(char *str, t_msc *msc)
 	free_ma_boi(msc);
 }
 
-void	free_and_nullify(void **ptr)
+void	free_null(void **ptr)
 {
 	if (ptr != NULL && *ptr != NULL)
 	{
@@ -39,18 +39,18 @@ void	free_ma_boi(t_msc *msc)
 		if (msc->mutex != NULL)
 		{
 			if (msc->mutex_initialised == true)
-				destroy_mutexes(msc); //BOOKMARK
+				destroy_mutexes(msc);
 			if (msc->mutex->forks != NULL)
-				free_and_nullify((void **)&msc->mutex->forks);
-			free_and_nullify((void **)&msc->mutex);
+				free_null((void **)&msc->mutex->forks);
+			free_null((void **)&msc->mutex);
 		}
 		if (msc->philo != NULL)
 		{
 			while (++i < msc->nb_philo)
-				free_and_nullify((void **)&msc->philo[i]);
-			free_and_nullify((void **)&msc->philo);
+				free_null((void **)&msc->philo[i]);
+			free_null((void **)&msc->philo);
 		}
-		free_and_nullify((void **)&msc);
+		free_null((void **)&msc);
 	}
 }
 

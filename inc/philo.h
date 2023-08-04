@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:42:56 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:54:53 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int			philo_sleeps(t_philo *one_philo, t_msc *msc);
 
 //ft_error_management.c
 void		ft_err(char *str, t_msc *msc);
-void		free_and_nullify(void **ptr);
+void		free_null(void **ptr);
 void		free_ma_boi(t_msc *msc);
 void		destroy_mutexes(t_msc *msc);
 

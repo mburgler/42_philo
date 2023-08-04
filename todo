@@ -1,7 +1,8 @@
-- max/min int
+D max/min int
 - norminette
 - all callocs protected
 - shorten
 - edgecases
 - zero
+- looped often enough for min eating?
 - diff file

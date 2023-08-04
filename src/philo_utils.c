@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 17:34:28 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 15:51:28 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:53:19 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_atoi(const char *nptr)
 	nb = 0;
 	i = 0;
 	sign = 1;
-	while ((nptr[i] == ' ') || (nptr[i] == '\f') || (nptr[i] == '\n') 
+	while ((nptr[i] == ' ') || (nptr[i] == '\f') || (nptr[i] == '\n')
 		|| (nptr[i] == '\r') || (nptr[i] == '\t') || (nptr[i] == '\v'))
 		i++;
 	if (nptr[i] == '-')
