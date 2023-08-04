@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:28:52 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:33:17 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	init(t_msc *msc)
 int	main(int argc, char **argv)
 {
 	t_msc	*msc;
-	int	i;
+	int		i;
 
 	i = -1;
 	msc = ft_calloc(sizeof(t_msc), 1);

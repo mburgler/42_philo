@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:25:26 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:34:35 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,3 +149,5 @@ int	philo_sleeps(t_philo *one_philo, t_msc *msc)
 	usleep(msc->time_to_sleep * 1000);
 	return (0);
 }
+
+//ADDITIONAL LINE
