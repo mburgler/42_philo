@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 17:02:40 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:26:53 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	init_philo(int i, t_msc *msc)
 		msc->philo[i - 1]->right_fork = &(msc->philo[i]->left_fork);
 	msc->philo[i]->meal_count = 0;
 	msc->philo[i]->time_last_meal = 0;
-	msc->philo[i]->dead = false;
 	msc->philo[i]->msc = msc;
 	return (0);
 }

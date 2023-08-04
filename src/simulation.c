@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 19:22:35 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/01 17:09:22 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:27:05 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	simulation_shutdown(t_msc *msc)
 		{
 			if (sys_time() - msc->philo[i]->time_last_meal > msc->time_to_die)
 			{
-				msc->philo[i]->dead = true;
 				msc->stop_simulation = true;
 				pthread_mutex_unlock(&msc->mutex->death);
 				ft_mutex_print_death(msc, msc->philo[i]);
