@@ -6,16 +6,15 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:55:38 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:19:20 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:25:23 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	one_philo(t_msc *msc)
+int	just_one_philo(t_msc *msc, int i)
 {
 	pthread_t	thr[1];	
-	int			i;
 
 	i = 0;
 	msc->philo[i]->time_birth = sys_time();
@@ -30,7 +29,7 @@ int	one_philo(t_msc *msc)
 			return (ft_err("pthread_create", msc), -1);
 	}
 	pthread_mutex_lock(&msc->mutex->death);
-	while(msc->stop_simulation == false)
+	while (msc->stop_simulation == false)
 	{
 		pthread_mutex_unlock(&msc->mutex->death);
 		usleep(1000);
