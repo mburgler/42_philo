@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:55:38 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:14:57 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:19:20 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	one_philo(t_msc *msc)
 	while(msc->stop_simulation == false)
 	{
 		pthread_mutex_unlock(&msc->mutex->death);
-		usleep(5000);
+		usleep(1000);
 		pthread_mutex_lock(&msc->mutex->death);
 	}
 	pthread_mutex_unlock(&msc->mutex->death);
@@ -54,6 +54,8 @@ void	*one_philo_routine(void *arg)
 	usleep(msc->time_to_die * 1000);
 	pthread_mutex_unlock(&msc->mutex->forks[0]);
 	ft_mutex_print_death(msc, msc->philo[0]);
+	pthread_mutex_lock(&msc->mutex->death);
 	msc->stop_simulation = true;
+	pthread_mutex_unlock(&msc->mutex->death);
 	return (NULL);
 }
