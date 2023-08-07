@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:56 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 17:20:36 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:53:41 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,15 @@ int	philo_sleeps(t_philo *one_philo, t_msc *msc)
 	usleep(msc->time_to_sleep * 1000);
 	return (0);
 }
+
+	// pthread_mutex_lock(&msc->mutex->death);
+	// while (sys_time() - one_philo->time_last_meal < msc->time_to_eat)
+	// {
+	// 	pthread_mutex_unlock(&msc->mutex->death);
+	// 	usleep(1000);
+	// 	pthread_mutex_lock(&msc->mutex->death);
+	// 	if(msc->stop_simulation == true)
+	// 		return (pthread_mutex_unlock(&msc->mutex->death), 0);
+	// 	pthread_mutex_lock(&msc->mutex->death);
+	// }
+	// pthread_mutex_unlock(&msc->mutex->death);
