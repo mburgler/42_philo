@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:00 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 19:29:49 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:48:45 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,4 @@ void	ft_mutex_print_death(t_msc *msc, t_philo *one_philo)
 	printf("%lld %d died\n", (time_now - one_philo->time_birth),
 		one_philo->nb_philo);
 	pthread_mutex_unlock(&msc->mutex->print);
-	if (one_philo->msc->nb_philo == 1)
-		pthread_mutex_unlock(&msc->mutex->forks[one_philo->left_fork]);
 }
