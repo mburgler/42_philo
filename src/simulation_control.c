@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:41 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 21:29:08 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:33:24 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,24 +102,29 @@ int	innerst_loop(t_msc *msc, int i, int all_ate)
 	return (all_ate);
 }
 
-void	*matrix(void *arg)
+int	one_philo(t_msc *msc)
 {
-	t_philo	*one_philo;
+	pthread_t	thr[1];
+	int			i;
 
-	if (!arg)
-		return (NULL);
-	one_philo = (t_philo *)arg;
-	pthread_mutex_lock(&one_philo->msc->mutex->death);
-	while (one_philo->msc->stop_simulation == false)
+	i = 0;
+	msc->philo[i]->time_birth = sys_time();
+	pthread_mutex_lock(&msc->mutex->death);
+	msc->philo[i]->time_last_meal = msc->philo[i]->time_birth;
+	pthread_mutex_unlock(&msc->mutex->death);
+	if (pthread_create(&thr[i], NULL, matrix, msc->philo[i]) != 0)
 	{
-		pthread_mutex_unlock(&one_philo->msc->mutex->death);
-		philo_eats(one_philo, one_philo->msc);
-		if (philo_sleeps(one_philo, one_philo->msc) == -1)
-			return (NULL);
-		ft_mutex_print(one_philo->msc, one_philo, "is thinking");
-		pthread_mutex_lock(&one_philo->msc->mutex->death);
-		if (one_philo->msc->stop_simulation == true)
-			return (pthread_mutex_unlock(&one_philo->msc->mutex->death), NULL);
+		if (ft_pthread_join(i, thr, msc) == -1)
+			return (ft_err("pthread_create and pthread_join", msc), -1);
+		else
+			return (ft_err("pthread_create", msc), -1);
 	}
-	return (NULL);
+	pthread_mutex_lock(&msc->mutex->forks[0]);
+	ft_mutex_print(msc, msc->philo[0], "has taken his left fork");
+	usleep(msc->time_to_die * 1000);
+	pthread_mutex_unlock(&msc->mutex->forks[0]);
+	ft_mutex_print_death(msc, msc->philo[i]);
+	if (ft_pthread_join(i, thr, msc) == -1)
+		return (ft_err("pthread_join", msc), -1);
+	return (0);
 }

@@ -6,11 +6,33 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:56 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:42:22 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:20:36 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	*matrix(void *arg)
+{
+	t_philo	*one_philo;
+
+	if (!arg)
+		return (NULL);
+	one_philo = (t_philo *)arg;
+	pthread_mutex_lock(&one_philo->msc->mutex->death);
+	while (one_philo->msc->stop_simulation == false)
+	{
+		pthread_mutex_unlock(&one_philo->msc->mutex->death);
+		philo_eats(one_philo, one_philo->msc);
+		if (philo_sleeps(one_philo, one_philo->msc) == -1)
+			return (NULL);
+		ft_mutex_print(one_philo->msc, one_philo, "is thinking");
+		pthread_mutex_lock(&one_philo->msc->mutex->death);
+		if (one_philo->msc->stop_simulation == true)
+			return (pthread_mutex_unlock(&one_philo->msc->mutex->death), NULL);
+	}
+	return (NULL);
+}
 
 void	philo_eats(t_philo *one_philo, t_msc *msc)
 {

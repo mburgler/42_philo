@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/04 20:33:17 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:21:46 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,12 @@ int	main(int argc, char **argv)
 		return (-1);
 	if (init(msc) == -1)
 		return (-1);
-	if (simulation_startup(msc, i) == -1)
+	if (msc->nb_philo == 1)
+	{
+		if (one_philo(msc) == -1)
+			return (-1);
+	}
+	else if (simulation_startup(msc, i) == -1)
 		return (-1);
 	free_ma_boi(msc);
 	return (0);
