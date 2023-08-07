@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:52:15 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:25:13 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:30:05 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv)
 		if (just_one_philo(msc, i) == -1)
 			return (-1);
 	}
-	else 
+	else
 	{
 		if (simulation_startup(msc, i) == -1)
 			return (-1);
