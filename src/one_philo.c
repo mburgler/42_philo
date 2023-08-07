@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:55:38 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:03:21 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:12:04 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	one_philo(t_msc *msc)
 		else
 			return (ft_err("pthread_create", msc), -1);
 	}
+	usleep(msc->time_to_die * 1000 + 5000);
 	if (ft_pthread_join(i, thr, msc) == -1)
 		return (ft_err("pthread_join", msc), -1);
 	return (0);
