@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 20:41:56 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:53:41 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:55:11 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,31 @@ int	philo_sleeps(t_philo *one_philo, t_msc *msc)
 	}
 	pthread_mutex_unlock(&msc->mutex->death);
 	ft_mutex_print(msc, one_philo, "is sleeping");
-	usleep(msc->time_to_sleep * 1000);
+	usleep_wrapper(msc->time_to_sleep, msc);
 	return (0);
 }
 
-	// pthread_mutex_lock(&msc->mutex->death);
-	// while (sys_time() - one_philo->time_last_meal < msc->time_to_eat)
-	// {
-	// 	pthread_mutex_unlock(&msc->mutex->death);
-	// 	usleep(1000);
-	// 	pthread_mutex_lock(&msc->mutex->death);
-	// 	if(msc->stop_simulation == true)
-	// 		return (pthread_mutex_unlock(&msc->mutex->death), 0);
-	// 	pthread_mutex_lock(&msc->mutex->death);
-	// }
-	// pthread_mutex_unlock(&msc->mutex->death);
+void	usleep_wrapper(int time_to_pass, t_msc *msc)
+{
+	int	nb_of_repetitions;
+	int	rest;
+	int	i;
+
+	i = 0;
+	nb_of_repetitions = time_to_pass / 100;
+	rest = time_to_pass % 100;
+	while (i < nb_of_repetitions)
+	{
+		pthread_mutex_lock(&msc->mutex->death);
+		if (msc->stop_simulation == true)
+		{
+			pthread_mutex_unlock(&msc->mutex->death);
+			return ;
+		}
+		pthread_mutex_unlock(&msc->mutex->death);
+		usleep(100 * 1000);
+		i++;
+	}
+	if (rest > 0)
+		usleep(rest * 1000);
+}

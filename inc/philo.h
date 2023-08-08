@@ -6,7 +6,7 @@
 /*   By: mburgler <mburgler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 16:54:29 by mburgler          #+#    #+#             */
-/*   Updated: 2023/08/07 18:24:58 by mburgler         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:52:58 by mburgler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int			innerst_loop(t_msc *msc, int i, int all_ate);
 void		*matrix(void *arg);
 void		philo_eats(t_philo *one_philo, t_msc *msc);
 int			philo_sleeps(t_philo *one_philo, t_msc *msc);
+void		usleep_wrapper(int time_to_pass, t_msc *msc);
 
 //one_philo.c
 int			just_one_philo(t_msc *msc, int i);
